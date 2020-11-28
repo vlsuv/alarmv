@@ -9,23 +9,29 @@
 /* Begin PBXBuildFile section */
 		67FACF232572758E00880254 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF222572758E00880254 /* AppDelegate.swift */; };
 		67FACF252572758E00880254 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF242572758E00880254 /* SceneDelegate.swift */; };
-		67FACF272572758E00880254 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF262572758E00880254 /* ViewController.swift */; };
-		67FACF2A2572758E00880254 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67FACF282572758E00880254 /* Main.storyboard */; };
+		67FACF272572758E00880254 /* AlarmListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF262572758E00880254 /* AlarmListController.swift */; };
 		67FACF2C257275A300880254 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67FACF2B257275A300880254 /* Assets.xcassets */; };
 		67FACF2F257275A300880254 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67FACF2D257275A300880254 /* LaunchScreen.storyboard */; };
 		67FACF372572761300880254 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 67FACF362572761300880254 /* .gitignore */; };
+		67FACF432572821E00880254 /* UIView Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF422572821E00880254 /* UIView Extensions.swift */; };
+		67FACF47257284F500880254 /* AlarmListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF46257284F500880254 /* AlarmListCell.swift */; };
+		67FACF4B2572897700880254 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF4A2572897700880254 /* Colors.swift */; };
+		67FACF4D257289A000880254 /* UIColor Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF4C257289A000880254 /* UIColor Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		67FACF1F2572758E00880254 /* Alarmv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alarmv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67FACF222572758E00880254 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67FACF242572758E00880254 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		67FACF262572758E00880254 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		67FACF292572758E00880254 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		67FACF262572758E00880254 /* AlarmListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListController.swift; sourceTree = "<group>"; };
 		67FACF2B257275A300880254 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		67FACF2E257275A300880254 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		67FACF30257275A300880254 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67FACF362572761300880254 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		67FACF422572821E00880254 /* UIView Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView Extensions.swift"; sourceTree = "<group>"; };
+		67FACF46257284F500880254 /* AlarmListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListCell.swift; sourceTree = "<group>"; };
+		67FACF4A2572897700880254 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		67FACF4C257289A000880254 /* UIColor Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,13 +67,80 @@
 			children = (
 				67FACF222572758E00880254 /* AppDelegate.swift */,
 				67FACF242572758E00880254 /* SceneDelegate.swift */,
-				67FACF262572758E00880254 /* ViewController.swift */,
-				67FACF282572758E00880254 /* Main.storyboard */,
-				67FACF2B257275A300880254 /* Assets.xcassets */,
-				67FACF2D257275A300880254 /* LaunchScreen.storyboard */,
 				67FACF30257275A300880254 /* Info.plist */,
+				67FACF382572773800880254 /* Model */,
+				67FACF392572774300880254 /* View */,
+				67FACF3A2572774C00880254 /* Controller */,
+				67FACF40257281D000880254 /* Utils */,
+				67FACF3B2572778700880254 /* Resources */,
 			);
 			path = Alarmv;
+			sourceTree = "<group>";
+		};
+		67FACF382572773800880254 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		67FACF392572774300880254 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				67FACF45257284C500880254 /* Cells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		67FACF3A2572774C00880254 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				67FACF262572758E00880254 /* AlarmListController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		67FACF3B2572778700880254 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				67FACF2D257275A300880254 /* LaunchScreen.storyboard */,
+				67FACF2B257275A300880254 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		67FACF40257281D000880254 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				67FACF442572825C00880254 /* Data */,
+				67FACF41257281EC00880254 /* Extensions */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		67FACF41257281EC00880254 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				67FACF422572821E00880254 /* UIView Extensions.swift */,
+				67FACF4C257289A000880254 /* UIColor Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		67FACF442572825C00880254 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				67FACF4A2572897700880254 /* Colors.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		67FACF45257284C500880254 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				67FACF46257284F500880254 /* AlarmListCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,7 +204,6 @@
 				67FACF372572761300880254 /* .gitignore in Resources */,
 				67FACF2F257275A300880254 /* LaunchScreen.storyboard in Resources */,
 				67FACF2C257275A300880254 /* Assets.xcassets in Resources */,
-				67FACF2A2572758E00880254 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,23 +214,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67FACF272572758E00880254 /* ViewController.swift in Sources */,
+				67FACF272572758E00880254 /* AlarmListController.swift in Sources */,
+				67FACF4D257289A000880254 /* UIColor Extensions.swift in Sources */,
+				67FACF4B2572897700880254 /* Colors.swift in Sources */,
 				67FACF232572758E00880254 /* AppDelegate.swift in Sources */,
 				67FACF252572758E00880254 /* SceneDelegate.swift in Sources */,
+				67FACF432572821E00880254 /* UIView Extensions.swift in Sources */,
+				67FACF47257284F500880254 /* AlarmListCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		67FACF282572758E00880254 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				67FACF292572758E00880254 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		67FACF2D257275A300880254 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -297,7 +365,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Alarmv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -314,7 +382,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Alarmv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
