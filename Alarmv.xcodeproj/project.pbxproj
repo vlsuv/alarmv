@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		678962562579000100F1C550 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678962552579000100F1C550 /* Style.swift */; };
+		67BB94A12577D6DD0083B5D6 /* TimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB94A02577D6DD0083B5D6 /* TimeCell.swift */; };
+		67BB94A32577DC9E0083B5D6 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB94A22577DC9E0083B5D6 /* DateCell.swift */; };
+		67BB94A62577EBE10083B5D6 /* AlarmEditTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB94A52577EBE10083B5D6 /* AlarmEditTableFooterView.swift */; };
+		67BB94A92577F0590083B5D6 /* AlarmEditSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB94A82577F0590083B5D6 /* AlarmEditSection.swift */; };
+		67CE7B742572AA71002988FE /* AlarmEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE7B732572AA71002988FE /* AlarmEditController.swift */; };
 		67FACF232572758E00880254 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF222572758E00880254 /* AppDelegate.swift */; };
 		67FACF252572758E00880254 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF242572758E00880254 /* SceneDelegate.swift */; };
 		67FACF272572758E00880254 /* AlarmListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FACF262572758E00880254 /* AlarmListController.swift */; };
@@ -20,6 +26,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		678962552579000100F1C550 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		67BB94A02577D6DD0083B5D6 /* TimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCell.swift; sourceTree = "<group>"; };
+		67BB94A22577DC9E0083B5D6 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
+		67BB94A52577EBE10083B5D6 /* AlarmEditTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditTableFooterView.swift; sourceTree = "<group>"; };
+		67BB94A82577F0590083B5D6 /* AlarmEditSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditSection.swift; sourceTree = "<group>"; };
+		67CE7B732572AA71002988FE /* AlarmEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditController.swift; sourceTree = "<group>"; };
 		67FACF1F2572758E00880254 /* Alarmv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alarmv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67FACF222572758E00880254 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67FACF242572758E00880254 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +57,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		67BB949F2577D6C30083B5D6 /* AlarmEditCells */ = {
+			isa = PBXGroup;
+			children = (
+				67BB94A02577D6DD0083B5D6 /* TimeCell.swift */,
+				67BB94A22577DC9E0083B5D6 /* DateCell.swift */,
+			);
+			path = AlarmEditCells;
+			sourceTree = "<group>";
+		};
+		67BB94A42577EBC00083B5D6 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				67BB94A52577EBE10083B5D6 /* AlarmEditTableFooterView.swift */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		67BB94A72577F03B0083B5D6 /* AlarmEdit */ = {
+			isa = PBXGroup;
+			children = (
+				67CE7B732572AA71002988FE /* AlarmEditController.swift */,
+				67BB94A82577F0590083B5D6 /* AlarmEditSection.swift */,
+			);
+			path = AlarmEdit;
+			sourceTree = "<group>";
+		};
 		67FACF162572758E00880254 = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +125,7 @@
 		67FACF392572774300880254 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				67BB94A42577EBC00083B5D6 /* CustomViews */,
 				67FACF45257284C500880254 /* Cells */,
 			);
 			path = View;
@@ -95,6 +134,7 @@
 		67FACF3A2572774C00880254 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				67BB94A72577F03B0083B5D6 /* AlarmEdit */,
 				67FACF262572758E00880254 /* AlarmListController.swift */,
 			);
 			path = Controller;
@@ -131,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				67FACF4A2572897700880254 /* Colors.swift */,
+				678962552579000100F1C550 /* Style.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -138,6 +179,7 @@
 		67FACF45257284C500880254 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				67BB949F2577D6C30083B5D6 /* AlarmEditCells */,
 				67FACF46257284F500880254 /* AlarmListCell.swift */,
 			);
 			path = Cells;
@@ -214,11 +256,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67BB94A62577EBE10083B5D6 /* AlarmEditTableFooterView.swift in Sources */,
 				67FACF272572758E00880254 /* AlarmListController.swift in Sources */,
+				67BB94A32577DC9E0083B5D6 /* DateCell.swift in Sources */,
 				67FACF4D257289A000880254 /* UIColor Extensions.swift in Sources */,
 				67FACF4B2572897700880254 /* Colors.swift in Sources */,
+				678962562579000100F1C550 /* Style.swift in Sources */,
+				67CE7B742572AA71002988FE /* AlarmEditController.swift in Sources */,
+				67BB94A12577D6DD0083B5D6 /* TimeCell.swift in Sources */,
 				67FACF232572758E00880254 /* AppDelegate.swift in Sources */,
 				67FACF252572758E00880254 /* SceneDelegate.swift in Sources */,
+				67BB94A92577F0590083B5D6 /* AlarmEditSection.swift in Sources */,
 				67FACF432572821E00880254 /* UIView Extensions.swift in Sources */,
 				67FACF47257284F500880254 /* AlarmListCell.swift in Sources */,
 			);

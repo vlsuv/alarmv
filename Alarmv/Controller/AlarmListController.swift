@@ -22,10 +22,15 @@ class AlarmListController: UIViewController {
         configureTableView()
     }
     
+    // MARK: - Actions
+    @objc private func showAlarmEditPage() {
+        navigationController?.pushViewController(AlarmEditController(), animated: true)
+    }
+    
     // MARK: - Handlers
     private func configureNavigationController() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(showAlarmEditPage))
         
         navigationController?.navigationBar.tintColor = Colors.blue
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -41,7 +46,7 @@ class AlarmListController: UIViewController {
         view.addSubview(tableView)
         tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
         
-        tableView.rowHeight = AlarmListCell.cellHeight
+        tableView.rowHeight = Sizes.alarmCellHeight
         tableView.separatorInset = .zero
         tableView.tableFooterView = UIView()
     }

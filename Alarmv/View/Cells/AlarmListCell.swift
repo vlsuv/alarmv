@@ -11,7 +11,6 @@ import UIKit
 class AlarmListCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "alarmListCell"
-    static let cellHeight: CGFloat = 80
     
     let alarmNameLabel: UILabel = {
         let label = UILabel()
@@ -60,12 +59,12 @@ class AlarmListCell: UITableViewCell {
         
         addSubview(stackView)
         stackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        stackView.anchor(left: leftAnchor, paddingLeft: 18)
+        stackView.anchor(left: leftAnchor, paddingLeft: Spaces.baseHorizontalSpace)
     }
     
     private func setupAlarmSwitchControl() {
         addSubview(alarmSwitchControl)
         alarmSwitchControl.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        alarmSwitchControl.anchor(right: rightAnchor, paddingRight: 18)
+        alarmSwitchControl.anchor(right: rightAnchor, paddingRight: Spaces.baseHorizontalSpace)
     }
 }
