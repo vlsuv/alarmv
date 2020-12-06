@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		678962562579000100F1C550 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678962552579000100F1C550 /* Style.swift */; };
+		67AA76C2257A5DC600643F3C /* BaseSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AA76C1257A5DC600643F3C /* BaseSettingCell.swift */; };
+		67AA76C4257A770500643F3C /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AA76C3257A770500643F3C /* Alarm.swift */; };
 		67BB94A12577D6DD0083B5D6 /* TimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB94A02577D6DD0083B5D6 /* TimeCell.swift */; };
 		67BB94A32577DC9E0083B5D6 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB94A22577DC9E0083B5D6 /* DateCell.swift */; };
 		67BB94A62577EBE10083B5D6 /* AlarmEditTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB94A52577EBE10083B5D6 /* AlarmEditTableFooterView.swift */; };
@@ -27,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		678962552579000100F1C550 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		67AA76C1257A5DC600643F3C /* BaseSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSettingCell.swift; sourceTree = "<group>"; };
+		67AA76C3257A770500643F3C /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		67BB94A02577D6DD0083B5D6 /* TimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCell.swift; sourceTree = "<group>"; };
 		67BB94A22577DC9E0083B5D6 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		67BB94A52577EBE10083B5D6 /* AlarmEditTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditTableFooterView.swift; sourceTree = "<group>"; };
@@ -62,6 +66,7 @@
 			children = (
 				67BB94A02577D6DD0083B5D6 /* TimeCell.swift */,
 				67BB94A22577DC9E0083B5D6 /* DateCell.swift */,
+				67AA76C1257A5DC600643F3C /* BaseSettingCell.swift */,
 			);
 			path = AlarmEditCells;
 			sourceTree = "<group>";
@@ -118,6 +123,7 @@
 		67FACF382572773800880254 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				67AA76C3257A770500643F3C /* Alarm.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -258,6 +264,7 @@
 			files = (
 				67BB94A62577EBE10083B5D6 /* AlarmEditTableFooterView.swift in Sources */,
 				67FACF272572758E00880254 /* AlarmListController.swift in Sources */,
+				67AA76C4257A770500643F3C /* Alarm.swift in Sources */,
 				67BB94A32577DC9E0083B5D6 /* DateCell.swift in Sources */,
 				67FACF4D257289A000880254 /* UIColor Extensions.swift in Sources */,
 				67FACF4B2572897700880254 /* Colors.swift in Sources */,
@@ -265,6 +272,7 @@
 				67CE7B742572AA71002988FE /* AlarmEditController.swift in Sources */,
 				67BB94A12577D6DD0083B5D6 /* TimeCell.swift in Sources */,
 				67FACF232572758E00880254 /* AppDelegate.swift in Sources */,
+				67AA76C2257A5DC600643F3C /* BaseSettingCell.swift in Sources */,
 				67FACF252572758E00880254 /* SceneDelegate.swift in Sources */,
 				67BB94A92577F0590083B5D6 /* AlarmEditSection.swift in Sources */,
 				67FACF432572821E00880254 /* UIView Extensions.swift in Sources */,

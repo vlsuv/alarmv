@@ -13,6 +13,13 @@ class AlarmEditController: UIViewController {
     private let tableView: UITableView = UITableView()
     private let alarmEditTableFooterView = AlarmEditTableFooterView()
     
+    private let snoozeSwitchControl: UISwitch = {
+        let switchControl = UISwitch()
+        switchControl.onTintColor = Colors.blue
+        switchControl.addTarget(self, action: #selector(handleSnooze), for: .valueChanged)
+        return switchControl
+    }()
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +33,15 @@ class AlarmEditController: UIViewController {
         print("deinit: alarmeditcontroller")
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        resignFirstResponder()
+    }
+    
+    // MARK: - Actions
+    @objc private func handleSnooze() {
+        print("handle snooze")
+    }
+    
     // MARK: - Handlers
     private func configureNavigationController() {
         navigationController?.navigationBar.tintColor = Colors.blue
@@ -37,7 +53,7 @@ class AlarmEditController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(BaseSettingCell.self, forCellReuseIdentifier: BaseSettingCell.identifier)
         tableView.register(TimeCell.self, forCellReuseIdentifier: TimeCell.identifier)
         tableView.register(DateCell.self, forCellReuseIdentifier: DateCell.identifier)
         
@@ -73,17 +89,37 @@ extension AlarmEditController: UITableViewDataSource {
         case .alarmDate:
             cell = tableView.dequeueReusableCell(withIdentifier: DateCell.identifier, for: indexPath)
         case .repeatDate:
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = alarmEditSection.description
+            guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
+            baseSettingCell.sectionType = alarmEditSection
+            
+            baseSettingCell.settingNameLabel.text = alarmEditSection.description
+            baseSettingCell.detailSettingTextLabel.text = alarmEditSection.description
+            
+            cell = baseSettingCell
         case .alarmLabel:
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = alarmEditSection.description
+            guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
+            baseSettingCell.sectionType = alarmEditSection
+            baseSettingCell.settingTextField.delegate = self
+            
+            baseSettingCell.settingNameLabel.text = alarmEditSection.description
+            
+            cell = baseSettingCell
         case .alarmSound:
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = alarmEditSection.description
+            guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
+            baseSettingCell.sectionType = alarmEditSection
+            
+            baseSettingCell.settingNameLabel.text = alarmEditSection.description
+            baseSettingCell.detailSettingTextLabel.text = alarmEditSection.description
+            
+            cell = baseSettingCell
         case .alarmSnooze:
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = alarmEditSection.description
+            guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
+            baseSettingCell.sectionType = alarmEditSection
+            
+            baseSettingCell.settingNameLabel.text = alarmEditSection.description
+            baseSettingCell.accessoryView = snoozeSwitchControl
+            
+            cell = baseSettingCell
         }
         return cell
     }
@@ -117,9 +153,17 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     }
 }
 
-// MARK : - TimeCellDelegate
+// MARK: - TimeCellDelegate
 extension AlarmEditController: TimeCellDelegate {
     func didChangeDatePickerValue(atTime time: Date) {
         print("time: \(time)")
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension AlarmEditController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
     }
 }

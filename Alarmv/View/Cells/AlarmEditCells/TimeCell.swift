@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol TimeCellDelegate {
+protocol TimeCellDelegate: class {
     func didChangeDatePickerValue(atTime time: Date)
 }
 
 class TimeCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "TimeCell"
-    var delegate: TimeCellDelegate!
+    weak var delegate: TimeCellDelegate!
     
     let datePicker: UIDatePicker = {
         let picker = UIDatePicker()
