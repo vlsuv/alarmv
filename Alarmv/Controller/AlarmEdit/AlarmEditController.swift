@@ -13,10 +13,13 @@ class AlarmEditController: UIViewController {
     private let tableView: UITableView = UITableView()
     private let alarmEditTableFooterView = AlarmEditTableFooterView()
     
+    private let notificationManager = NotificationManager()
+    private var alarm: Alarm = Alarm()
+    
     private let snoozeSwitchControl: UISwitch = {
         let switchControl = UISwitch()
         switchControl.onTintColor = Colors.blue
-        switchControl.addTarget(self, action: #selector(handleSnooze), for: .valueChanged)
+        switchControl.addTarget(self, action: #selector(handleSnooze(_:)), for: .valueChanged)
         return switchControl
     }()
     
@@ -27,6 +30,8 @@ class AlarmEditController: UIViewController {
         
         configureTableView()
         configureNavigationController()
+        
+        snoozeSwitchControl.isOn = alarm.snoozeEnabled
     }
     
     deinit {
@@ -38,8 +43,8 @@ class AlarmEditController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc private func handleSnooze() {
-        print("handle snooze")
+    @objc private func handleSnooze(_ sender: UISwitch) {
+        alarm.snoozeEnabled = sender.isOn
     }
     
     // MARK: - Handlers
@@ -70,6 +75,19 @@ class AlarmEditController: UIViewController {
         alarmEditTableFooterView.delegate = self
         tableView.tableFooterView?.frame.size.height = Sizes.buttonHeight
     }
+    
+    func createDate(weekday: Int, hour: Int, minute: Int) -> Date {
+        
+        var components = DateComponents()
+        components.hour = hour
+        components.minute = minute
+        components.weekday = weekday
+        components.weekdayOrdinal = 10
+        components.timeZone = .current
+        
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.date(from: components)!
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -80,34 +98,39 @@ extension AlarmEditController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
+        
         guard let alarmEditSection = AlarmEditSection(rawValue: indexPath.row) else {return UITableViewCell()}
+        
         switch alarmEditSection {
         case .alarmTime:
             guard let timeCell = tableView.dequeueReusableCell(withIdentifier: TimeCell.identifier, for: indexPath) as? TimeCell else {return UITableViewCell()}
             timeCell.delegate = self
+            timeCell.datePicker.date = alarm.time
+            
             cell = timeCell
         case .alarmDate:
-            cell = tableView.dequeueReusableCell(withIdentifier: DateCell.identifier, for: indexPath)
+            guard let dateCell = tableView.dequeueReusableCell(withIdentifier: DateCell.identifier, for: indexPath) as? DateCell else {return UITableViewCell()}
+            dateCell.delegate = self
+            
+            cell = dateCell
         case .repeatDate:
             guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
             baseSettingCell.sectionType = alarmEditSection
-            
             baseSettingCell.settingNameLabel.text = alarmEditSection.description
-            baseSettingCell.detailSettingTextLabel.text = alarmEditSection.description
+            baseSettingCell.detailSettingTextLabel.text = alarm.nameOfRepeatDays()
             
             cell = baseSettingCell
         case .alarmLabel:
             guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
             baseSettingCell.sectionType = alarmEditSection
             baseSettingCell.settingTextField.delegate = self
-            
             baseSettingCell.settingNameLabel.text = alarmEditSection.description
+            baseSettingCell.settingTextField.text = alarm.name
             
             cell = baseSettingCell
         case .alarmSound:
             guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
             baseSettingCell.sectionType = alarmEditSection
-            
             baseSettingCell.settingNameLabel.text = alarmEditSection.description
             baseSettingCell.detailSettingTextLabel.text = alarmEditSection.description
             
@@ -115,7 +138,6 @@ extension AlarmEditController: UITableViewDataSource {
         case .alarmSnooze:
             guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
             baseSettingCell.sectionType = alarmEditSection
-            
             baseSettingCell.settingNameLabel.text = alarmEditSection.description
             baseSettingCell.accessoryView = snoozeSwitchControl
             
@@ -149,20 +171,42 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     }
     
     func didTapSaveButton() {
-        print("handle save")
+        let hour = Calendar.current.component(.hour, from: alarm.time)
+        let minute = Calendar.current.component(.minute, from: alarm.time)
+        let day = Calendar.current.component(.weekday, from: alarm.time)
+        
+        let date = createDate(weekday: day, hour: hour, minute: minute)
+        
+        notificationManager.setNotificationWithDate(id: alarm.uid, title: alarm.name, date: date, snooze: alarm.snoozeEnabled)
     }
 }
 
 // MARK: - TimeCellDelegate
 extension AlarmEditController: TimeCellDelegate {
     func didChangeDatePickerValue(atTime time: Date) {
-        print("time: \(time)")
+        alarm.time = time
+    }
+}
+
+// MARK: - DateCellDelegate
+extension AlarmEditController: DateCellDelegate {
+    func didSelectedRepeatDay(_ weekday: RepeatDay) {
+        if alarm.repeatDays[weekday.id] != nil {
+            alarm.repeatDays.removeValue(forKey: weekday.id)
+        } else {
+            alarm.repeatDays[weekday.id] = weekday.name
+        }
+        
+        tableView.reloadData()
     }
 }
 
 // MARK: - UITextFieldDelegate
 extension AlarmEditController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let name = textField.text {
+            alarm.name = name
+        }
         textField.resignFirstResponder()
         return false
     }

@@ -9,8 +9,20 @@
 import Foundation
 
 struct Alarm {
-    let id: String
-    let name: String
-    let date: Date
-    let snooze: Bool
+    var uid: String = UUID().uuidString
+    var enabled: Bool = false
+    var snoozeEnabled: Bool = false
+    var name: String = "Alarm"
+    var time: Date = Date()
+    var repeatDays: [Int: String] = [Int: String]()
+    
+    func nameOfRepeatDays() -> String {
+        var nameOfRepeatDays = ""
+        
+        for day in repeatDays.sorted(by: { $0.key < $1.key }) {
+            nameOfRepeatDays += "\(day.value) "
+        }
+        
+        return nameOfRepeatDays
+    }
 }

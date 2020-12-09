@@ -8,12 +8,24 @@
 
 import UIKit
 
+protocol DateCellDelegate {
+    func didSelectedRepeatDay(_ repeatDay: RepeatDay)
+}
+
 class DateCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "DateCell"
+    var delegate: DateCellDelegate!
     
     var dateButtons: [UIButton] = [UIButton]()
-    let dates: [String] = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+    let repeatDays: [RepeatDay] = [
+        RepeatDay(name: "Mo", id: 2),
+        RepeatDay(name: "Tu", id: 3),
+        RepeatDay(name: "We", id: 4),
+        RepeatDay(name: "Th", id: 5),
+        RepeatDay(name: "Fr", id: 6),
+        RepeatDay(name: "Su", id: 1)
+    ]
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -28,21 +40,24 @@ class DateCell: UITableViewCell {
     // MARK: - Actions
     @objc func handleDate(_ sender: UIButton) {
         guard let index = dateButtons.firstIndex(of: sender) else {return}
-        print("date: \(dates[index])")
+        let repeatDay = repeatDays[index]
+    
         sender.isSelected.toggle()
         sender.backgroundColor = sender.isSelected ? Colors.blue : Colors.lightGray
+        
+        delegate.didSelectedRepeatDay(repeatDay)
     }
     
     // MARK: - Handlers
     private func addDateButtons() {
-        for date in dates {
+        for repeatDay in repeatDays {
             let button = UIButton()
             
-            let normalAttributedString = NSAttributedString(string: date, attributes: [
+            let normalAttributedString = NSAttributedString(string: repeatDay.name, attributes: [
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular),
                 NSAttributedString.Key.foregroundColor: Colors.black
                 ])
-            let selectedAttributedString = NSAttributedString(string: date, attributes: [
+            let selectedAttributedString = NSAttributedString(string: repeatDay.name, attributes: [
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular),
                 NSAttributedString.Key.foregroundColor: Colors.white
             ])

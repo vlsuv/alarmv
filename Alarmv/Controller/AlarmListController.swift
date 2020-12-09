@@ -12,6 +12,7 @@ class AlarmListController: UIViewController {
     
     // MARK: - Properties
     private let tableView: UITableView = UITableView()
+    private var alarms: [Alarm] = [Alarm]()
 
     // MARK: - Init
     override func viewDidLoad() {
