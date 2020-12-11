@@ -8,16 +8,11 @@
 
 import Foundation
 
-protocol AlarmEditSectionType: CustomStringConvertible {
-    var containsDetailSettingTextLabel: Bool { get }
-    var containsDetailSettingTextField: Bool { get }
-}
-
-enum AlarmEditSection: Int, CaseIterable, AlarmEditSectionType {
+enum AlarmEditSection: Int, CaseIterable, CustomStringConvertible {
     case alarmTime
     case alarmDate
     case repeatDate
-    case alarmLabel
+    case alarmName
     case alarmSound
     case alarmSnooze
     
@@ -29,46 +24,12 @@ enum AlarmEditSection: Int, CaseIterable, AlarmEditSectionType {
             return "Alarm Date"
         case .repeatDate:
             return "Repeat"
-        case .alarmLabel:
-            return "Label"
+        case .alarmName:
+            return "Name"
         case .alarmSound:
             return "Sound"
         case .alarmSnooze:
             return "Snooze"
-        }
-    }
-    
-    var containsDetailSettingTextLabel: Bool {
-        switch self {
-        case .alarmTime:
-            return false
-        case .alarmDate:
-            return false
-        case .repeatDate:
-            return true
-        case .alarmLabel:
-            return false
-        case .alarmSound:
-            return true
-        case .alarmSnooze:
-            return false
-        }
-    }
-    
-    var containsDetailSettingTextField: Bool {
-        switch self {
-        case .alarmTime:
-            return false
-        case .alarmDate:
-            return false
-        case .repeatDate:
-            return false
-        case .alarmLabel:
-            return true
-        case .alarmSound:
-            return false
-        case .alarmSnooze:
-            return false
         }
     }
 }

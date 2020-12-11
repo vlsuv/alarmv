@@ -57,9 +57,10 @@ class AlarmEditController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.register(BaseSettingCell.self, forCellReuseIdentifier: BaseSettingCell.identifier)
+        tableView.register(AlarmEditCell.self, forCellReuseIdentifier: AlarmEditCell.identifier)
         tableView.register(TimeCell.self, forCellReuseIdentifier: TimeCell.identifier)
         tableView.register(DateCell.self, forCellReuseIdentifier: DateCell.identifier)
+        tableView.register(FieldCell.self, forCellReuseIdentifier: FieldCell.identifier)
         
         view.addSubview(tableView)
         tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
@@ -83,8 +84,6 @@ extension AlarmEditController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
-        
         guard let alarmEditSection = AlarmEditSection(rawValue: indexPath.row) else {return UITableViewCell()}
         
         switch alarmEditSection {
@@ -92,44 +91,34 @@ extension AlarmEditController: UITableViewDataSource {
             guard let timeCell = tableView.dequeueReusableCell(withIdentifier: TimeCell.identifier, for: indexPath) as? TimeCell else {return UITableViewCell()}
             timeCell.delegate = self
             timeCell.datePicker.date = alarm.time
-            
-            cell = timeCell
+            return timeCell
         case .alarmDate:
             guard let dateCell = tableView.dequeueReusableCell(withIdentifier: DateCell.identifier, for: indexPath) as? DateCell else {return UITableViewCell()}
             dateCell.delegate = self
-            
-            cell = dateCell
+            return dateCell
         case .repeatDate:
-            guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
-            baseSettingCell.sectionType = alarmEditSection
-            baseSettingCell.settingNameLabel.text = alarmEditSection.description
-            baseSettingCell.detailSettingTextLabel.text = alarm.nameOfRepeatDays()
-            
-            cell = baseSettingCell
-        case .alarmLabel:
-            guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
-            baseSettingCell.sectionType = alarmEditSection
-            baseSettingCell.settingTextField.delegate = self
-            baseSettingCell.settingNameLabel.text = alarmEditSection.description
-            baseSettingCell.settingTextField.text = alarm.name
-            
-            cell = baseSettingCell
+            guard let alarmEditCell = tableView.dequeueReusableCell(withIdentifier: AlarmEditCell.identifier, for: indexPath) as? AlarmEditCell else {return UITableViewCell()}
+            alarmEditCell.settingNameLabel.text = alarmEditSection.description
+            alarmEditCell.detailSettingTextLabel.text = alarm.nameOfRepeatDays()
+            return alarmEditCell
+        case .alarmName:
+            guard let fieldCell = tableView.dequeueReusableCell(withIdentifier: FieldCell.identifier, for: indexPath) as? FieldCell else {return UITableViewCell()}
+            fieldCell.settingTextField.delegate = self
+            fieldCell.settingNameLabel.text = alarmEditSection.description
+            fieldCell.settingTextField.text = alarm.name
+            return fieldCell
         case .alarmSound:
-            guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
-            baseSettingCell.sectionType = alarmEditSection
-            baseSettingCell.settingNameLabel.text = alarmEditSection.description
-            baseSettingCell.detailSettingTextLabel.text = alarmEditSection.description
-            
-            cell = baseSettingCell
+            guard let alarmEditCell = tableView.dequeueReusableCell(withIdentifier: AlarmEditCell.identifier, for: indexPath) as? AlarmEditCell else {return UITableViewCell()}
+            alarmEditCell.settingNameLabel.text = alarmEditSection.description
+            alarmEditCell.detailSettingTextLabel.text = alarmEditSection.description
+            return alarmEditCell
         case .alarmSnooze:
-            guard let baseSettingCell = tableView.dequeueReusableCell(withIdentifier: BaseSettingCell.identifier, for: indexPath) as? BaseSettingCell else {return UITableViewCell()}
-            baseSettingCell.sectionType = alarmEditSection
-            baseSettingCell.settingNameLabel.text = alarmEditSection.description
-            baseSettingCell.accessoryView = snoozeSwitchControl
-            
-            cell = baseSettingCell
+            guard let alarmEditCell = tableView.dequeueReusableCell(withIdentifier: AlarmEditCell.identifier, for: indexPath) as? AlarmEditCell else {return UITableViewCell()}
+            alarmEditCell.settingNameLabel.text = alarmEditSection.description
+            alarmEditCell.detailSettingTextLabel.isHidden = true
+            alarmEditCell.accessoryView = snoozeSwitchControl
+            return alarmEditCell
         }
-        return cell
     }
 }
 
