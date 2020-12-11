@@ -28,7 +28,7 @@ final class NotificationManager: NSObject {
         }
     }
     
-    func setNotificationWithDate(id: String, title: String, date: Date, snooze: Bool) {
+    func setNotificationWithDate(id: String, title: String, date: Date, snooze: Bool, completion: @escaping (Error?) -> () ) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.sound = UNNotificationSound(named: UNNotificationSoundName("EarlyRiser.mp3"))
@@ -39,9 +39,10 @@ final class NotificationManager: NSObject {
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         notificationCenter.add(request) { error in
             if let error = error {
-                print(error.localizedDescription)
+                completion(error)
                 return
             }
+            completion(nil)
         }
     }
 }

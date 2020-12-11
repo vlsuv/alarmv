@@ -12,6 +12,8 @@ class AlarmListController: UIViewController {
     
     // MARK: - Properties
     private let tableView: UITableView = UITableView()
+    private let dataManager = DataManager()
+    
     private var alarms: [Alarm] = [Alarm]()
 
     // MARK: - Init
@@ -21,11 +23,30 @@ class AlarmListController: UIViewController {
         
         configureNavigationController()
         configureTableView()
+        fetchAlarms()
+    }
+    
+    // MARK: - Requests
+    private func fetchAlarms() {
+        dataManager.fetch { [weak self] alarms in
+            self?.alarms = alarms
+            
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     // MARK: - Actions
     @objc private func showAlarmEditPage() {
-        navigationController?.pushViewController(AlarmEditController(), animated: true)
+        let alarmEditController = AlarmEditController()
+        alarmEditController.completion = { [weak self] in
+            DispatchQueue.main.async {
+                self?.fetchAlarms()
+                self?.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+        navigationController?.pushViewController(alarmEditController, animated: true)
     }
     
     // MARK: - Handlers
@@ -56,12 +77,13 @@ class AlarmListController: UIViewController {
 // MARK: - UITableViewDataSource
 extension AlarmListController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return alarms.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AlarmListCell.identifier, for: indexPath) as! AlarmListCell
-        cell.configureAlarm()
+        let alarm = alarms[indexPath.row]
+        cell.configure(with: alarm)
         return cell
     }
 }

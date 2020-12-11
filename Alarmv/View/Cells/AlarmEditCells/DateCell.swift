@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol DateCellDelegate {
+protocol DateCellDelegate: class {
     func didSelectedRepeatDay(_ repeatDay: RepeatDay)
 }
 
 class DateCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "DateCell"
-    var delegate: DateCellDelegate!
+    weak var delegate: DateCellDelegate!
     
     var dateButtons: [UIButton] = [UIButton]()
     let repeatDays: [RepeatDay] = [

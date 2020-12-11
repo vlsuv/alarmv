@@ -32,10 +32,14 @@ class AlarmListCell: UITableViewCell {
         return switchControl
     }()
     
-    func configureAlarm() {
-        alarmNameLabel.text = "03:30 AM"
-        alarmDateLabel.text = "Mon Tue Wen"
-        alarmSwitchControl.isOn = true
+    func configure(with alarm: Alarm) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        let time = dateFormatter.string(from: alarm.time)
+        
+        alarmNameLabel.text = time
+        alarmDateLabel.text = alarm.nameOfRepeatDays()
+        alarmSwitchControl.isOn = alarm.enabled
     }
     
     // MARK: - Init

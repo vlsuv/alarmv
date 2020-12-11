@@ -7,15 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 class AlarmEditController: UIViewController {
     // MARK: - Properties
     private let tableView: UITableView = UITableView()
     private let alarmEditTableFooterView = AlarmEditTableFooterView()
-    
-    private let notificationManager = NotificationManager()
-    private var alarm: Alarm = Alarm()
-    
     private let snoozeSwitchControl: UISwitch = {
         let switchControl = UISwitch()
         switchControl.onTintColor = Colors.blue
@@ -23,23 +20,25 @@ class AlarmEditController: UIViewController {
         return switchControl
     }()
     
+    var completion: (() -> ())?
+    
+    private let notificationManager = NotificationManager()
+    private let dataManager = DataManager()
+    
+    var alarm: Alarm = Alarm(context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.white
+        snoozeSwitchControl.isOn = alarm.snoozeEnabled
         
         configureTableView()
         configureNavigationController()
-        
-        snoozeSwitchControl.isOn = alarm.snoozeEnabled
     }
     
     deinit {
         print("deinit: alarmeditcontroller")
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        resignFirstResponder()
     }
     
     // MARK: - Actions
@@ -74,19 +73,6 @@ class AlarmEditController: UIViewController {
         tableView.tableFooterView = alarmEditTableFooterView
         alarmEditTableFooterView.delegate = self
         tableView.tableFooterView?.frame.size.height = Sizes.buttonHeight
-    }
-    
-    func createDate(weekday: Int, hour: Int, minute: Int) -> Date {
-        
-        var components = DateComponents()
-        components.hour = hour
-        components.minute = minute
-        components.weekday = weekday
-        components.weekdayOrdinal = 10
-        components.timeZone = .current
-        
-        let calendar = Calendar(identifier: .gregorian)
-        return calendar.date(from: components)!
     }
 }
 
@@ -171,13 +157,16 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     }
     
     func didTapSaveButton() {
-        let hour = Calendar.current.component(.hour, from: alarm.time)
-        let minute = Calendar.current.component(.minute, from: alarm.time)
-        let day = Calendar.current.component(.weekday, from: alarm.time)
+        let date = DateHelper.createDate(time: alarm.time)
         
-        let date = createDate(weekday: day, hour: hour, minute: minute)
-        
-        notificationManager.setNotificationWithDate(id: alarm.uid, title: alarm.name, date: date, snooze: alarm.snoozeEnabled)
+        notificationManager.setNotificationWithDate(id: alarm.uuid.uuidString, title: alarm.name, date: date, snooze: alarm.snoozeEnabled) { [weak self] error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            self?.dataManager.save()
+            self?.completion?()
+        }
     }
 }
 
@@ -192,11 +181,10 @@ extension AlarmEditController: TimeCellDelegate {
 extension AlarmEditController: DateCellDelegate {
     func didSelectedRepeatDay(_ weekday: RepeatDay) {
         if alarm.repeatDays[weekday.id] != nil {
-            alarm.repeatDays.removeValue(forKey: weekday.id)
+            alarm.repeatDays.removeObject(forKey: weekday.id)
         } else {
             alarm.repeatDays[weekday.id] = weekday.name
         }
-        
         tableView.reloadData()
     }
 }
