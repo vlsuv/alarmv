@@ -21,6 +21,10 @@ class DataManager {
         }
     }
     
+    func delete(_ object: NSManagedObject) {
+        context.delete(object)
+    }
+    
     func fetch(completion: ([Alarm]) -> ()) {
         do {
             let alarms = try context.fetch(Alarm.fetchRequest()) as! [Alarm]

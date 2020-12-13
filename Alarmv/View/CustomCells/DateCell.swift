@@ -24,6 +24,7 @@ class DateCell: UITableViewCell {
         RepeatDay(name: "We", id: 4),
         RepeatDay(name: "Th", id: 5),
         RepeatDay(name: "Fr", id: 6),
+        RepeatDay(name: "Sa", id: 7),
         RepeatDay(name: "Su", id: 1)
     ]
     

@@ -45,6 +45,10 @@ final class NotificationManager: NSObject {
             completion(nil)
         }
     }
+    
+    func deleteNotification(_ identifier: String) {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
+    }
 }
 
 extension NotificationManager: UNUserNotificationCenterDelegate {

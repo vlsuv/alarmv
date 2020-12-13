@@ -12,6 +12,7 @@ class AlarmListController: UIViewController {
     
     // MARK: - Properties
     private let tableView: UITableView = UITableView()
+    private let notificationManager = NotificationManager()
     private let dataManager = DataManager()
     
     private var alarms: [Alarm] = [Alarm]()
@@ -92,5 +93,23 @@ extension AlarmListController: UITableViewDataSource {
 extension AlarmListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let alarm = alarms[indexPath.row]
+        
+        let deleteAction = UIContextualAction(style: .normal, title: "") { [weak self] action, uiview, completion in
+            self?.notificationManager.deleteNotification(alarm.uuid.uuidString)
+            self?.dataManager.delete(alarm)
+            self?.dataManager.save()
+            self?.fetchAlarms()
+        }
+        deleteAction.image = Images.trash
+        deleteAction.backgroundColor = Colors.red
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
