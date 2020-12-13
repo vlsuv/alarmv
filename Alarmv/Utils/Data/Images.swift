@@ -10,4 +10,6 @@ import UIKit
 
 enum Images {
     static let trash: UIImage = UIImage(named: "trash") ?? UIImage()
+    static let play: UIImage = UIImage(named: "play") ?? UIImage()
+    static let pause: UIImage = UIImage(named: "pause") ?? UIImage()
 }

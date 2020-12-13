@@ -65,7 +65,6 @@ class AlarmEditController: UIViewController {
         view.addSubview(tableView)
         tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
         
-        tableView.allowsSelection = false
         tableView.rowHeight = Sizes.settingCellHeight
         tableView.isScrollEnabled = false
         tableView.separatorInset = .zero
@@ -126,6 +125,14 @@ extension AlarmEditController: UITableViewDataSource {
 extension AlarmEditController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let alarmEditSection = AlarmEditSection(rawValue: indexPath.row) else {return}
+        switch alarmEditSection {
+        case .alarmSound:
+            navigationController?.pushViewController(SoundListController(), animated: true)
+        default:
+            return
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
