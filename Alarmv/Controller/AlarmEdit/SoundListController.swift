@@ -11,7 +11,12 @@ import UIKit
 class SoundListController: UIViewController {
     // MARK: - Properties
     private let tableView: UITableView = UITableView()
-    private let sounds: [String] = ["Sound One", "Sound Two"]
+    private let soundManager = SoundManager()
+    
+    private let sounds: [Sound] = [
+        Sound(name: "Early Riser", fileName: "EarlyRiser"),
+        Sound(name: "Slow Morning", fileName: "SlowMorning")
+    ]
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -43,6 +48,20 @@ class SoundListController: UIViewController {
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
     }
+    
+    private func getSoundIndexPath(_ sound: Sound) -> IndexPath? {
+        guard let soundRow = sounds.firstIndex(of: sound) else {return nil}
+        return IndexPath(row: soundRow, section: 0)
+    }
+    
+    private func stopCurentlyPlaying() {
+        if let currentSound = soundManager.curentlyPlaying() {
+            soundManager.stop()
+            if let stopIndex = getSoundIndexPath(currentSound), let cell = tableView.cellForRow(at: stopIndex) as? SoundListCell {
+                cell.changePlayButtonStatus(play: false)
+            }
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -53,8 +72,9 @@ extension SoundListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SoundListCell.identifier, for: indexPath) as? SoundListCell else {return UITableViewCell()}
+        cell.delegate = self
         let sound = sounds[indexPath.row]
-        cell.soundNameLabel.text = sound
+        cell.soundNameLabel.text = sound.name
         return cell
     }
 }
@@ -62,4 +82,21 @@ extension SoundListController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension SoundListController: UITableViewDelegate {
     
+}
+
+// MARK: - UITableViewDelegate
+extension SoundListController: SoundListCellDelegate {
+    func didTapPlayButton(with cell: SoundListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {return}
+        let sound = sounds[indexPath.row]
+        
+        guard sound != soundManager.curentlyPlaying() else {
+            stopCurentlyPlaying()
+            return
+        }
+        
+        stopCurentlyPlaying()
+        soundManager.play(this: sound)
+        cell.changePlayButtonStatus(play: true)
+    }
 }

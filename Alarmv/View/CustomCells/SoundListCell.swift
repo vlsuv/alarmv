@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol SoundListCellDelegate: class {
+    func didTapPlayButton(with cell: SoundListCell)
+}
+
 class SoundListCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "SoundListCell"
+    weak var delegate: SoundListCellDelegate!
     
     let soundNameLabel: UILabel = {
         let label = UILabel()
@@ -19,11 +24,11 @@ class SoundListCell: UITableViewCell {
         return label
     }()
     
-    let playSoundButton: UIButton = {
+    let playButton: UIButton = {
         let button = UIButton()
         button.setImage(Images.play, for: .normal)
         button.setImage(Images.pause, for: .selected)
-        button.addTarget(self, action: #selector(handlePlaySound(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handlePlay(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -31,7 +36,7 @@ class SoundListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupSoundNameLabel()
-        setupPlaySoundButton()
+        setupPlayButton()
     }
     
     required init?(coder: NSCoder) {
@@ -39,8 +44,12 @@ class SoundListCell: UITableViewCell {
     }
     
     // MARK: - Actions
-    @objc private func handlePlaySound(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @objc private func handlePlay(_ sender: UIButton) {
+        delegate.didTapPlayButton(with: self)
+    }
+    
+    func changePlayButtonStatus(play: Bool) {
+        playButton.isSelected = play
     }
     
     // MARK: - Handlers
@@ -50,10 +59,10 @@ class SoundListCell: UITableViewCell {
         soundNameLabel.anchor(left: contentView.leftAnchor, paddingLeft: 18)
     }
     
-    private func setupPlaySoundButton() {
-        contentView.addSubview(playSoundButton)
-        playSoundButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        playSoundButton.anchor(right: contentView.rightAnchor, paddingRight: 18, height: 22, width: 22)
-        playSoundButton.addTarget(self, action: #selector(handlePlaySound(_:)), for: .touchUpInside)
+    private func setupPlayButton() {
+        contentView.addSubview(playButton)
+        playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        playButton.anchor(right: contentView.rightAnchor, paddingRight: 18, height: 22, width: 22)
+        playButton.addTarget(self, action: #selector(handlePlay(_:)), for: .touchUpInside)
     }
 }
