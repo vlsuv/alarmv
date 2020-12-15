@@ -11,7 +11,7 @@ import Foundation
 public class RepeatDay: NSObject, NSCoding {
    
     let name: String
-    let id: Int?
+    let id: Int
     
     enum PropertyKeys {
         static let name = "name"

@@ -18,7 +18,7 @@ class SoundManager {
     }
     
     func play(this sound: Sound) {
-        guard let path = Bundle.main.path(forResource: sound.fileName, ofType: "mp3") else {return}
+        guard let path = Bundle.main.path(forAuxiliaryExecutable: sound.fileName) else {return}
         let url = URL(fileURLWithPath: path)
         
         do {

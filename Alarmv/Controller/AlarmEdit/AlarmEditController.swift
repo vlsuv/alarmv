@@ -109,7 +109,7 @@ extension AlarmEditController: UITableViewDataSource {
         case .alarmSound:
             guard let alarmEditCell = tableView.dequeueReusableCell(withIdentifier: AlarmEditCell.identifier, for: indexPath) as? AlarmEditCell else {return UITableViewCell()}
             alarmEditCell.settingNameLabel.text = alarmEditSection.description
-            alarmEditCell.detailSettingTextLabel.text = alarmEditSection.description
+            alarmEditCell.detailSettingTextLabel.text = alarm.sound.name
             return alarmEditCell
         case .alarmSnooze:
             guard let alarmEditCell = tableView.dequeueReusableCell(withIdentifier: AlarmEditCell.identifier, for: indexPath) as? AlarmEditCell else {return UITableViewCell()}
@@ -129,7 +129,9 @@ extension AlarmEditController: UITableViewDelegate {
         guard let alarmEditSection = AlarmEditSection(rawValue: indexPath.row) else {return}
         switch alarmEditSection {
         case .alarmSound:
-            navigationController?.pushViewController(SoundListController(), animated: true)
+            let soundListController = SoundListController()
+            soundListController.delegate = self
+            navigationController?.pushViewController(soundListController, animated: true)
         default:
             return
         }
@@ -155,7 +157,7 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     func didTapSaveButton() {
         let date = DateHelper.createDate(time: alarm.time)
         
-        notificationManager.setNotificationWithDate(id: alarm.uuid.uuidString, title: alarm.name, date: date, snooze: alarm.snoozeEnabled) { [weak self] error in
+        notificationManager.setNotificationWithDate(id: alarm.uuid.uuidString, title: alarm.name, date: date, snooze: alarm.snoozeEnabled, sound: alarm.sound) { [weak self] error in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -195,5 +197,13 @@ extension AlarmEditController: UITextFieldDelegate {
         }
         textField.resignFirstResponder()
         return false
+    }
+}
+
+// MARK: - SoundListControllerDelegate
+extension AlarmEditController: SoundListControllerDelegate {
+    func didSelectedSound(_ sound: Sound) {
+        alarm.sound = sound
+        tableView.reloadData()
     }
 }

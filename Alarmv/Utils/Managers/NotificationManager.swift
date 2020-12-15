@@ -28,10 +28,10 @@ final class NotificationManager: NSObject {
         }
     }
     
-    func setNotificationWithDate(id: String, title: String, date: Date, snooze: Bool, completion: @escaping (Error?) -> () ) {
+    func setNotificationWithDate(id: String, title: String, date: Date, snooze: Bool, sound: Sound, completion: @escaping (Error?) -> () ) {
         let content = UNMutableNotificationContent()
         content.title = title
-        content.sound = UNNotificationSound(named: UNNotificationSoundName("EarlyRiser.mp3"))
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(sound.fileName))
         
         let triggerWeekly = Calendar.current.dateComponents([.weekday, .hour, .minute], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly, repeats: true)

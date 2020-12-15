@@ -19,13 +19,14 @@ public class Alarm: NSManagedObject {
         self.name = "Alarm"
         self.enabled = false
         self.repeatDays = [RepeatDay]()
+        self.sound = Sound(name: "Early Riser", fileName: "EarlyRiser")
     }
     
     func nameOfRepeatDays() -> String {
         var nameOfRepeatDays = ""
         
         for repeatDay in repeatDays.sorted(by: { repeatDay1, repeatDay2 -> Bool in
-            repeatDay1.id! < repeatDay2.id!
+            repeatDay1.id < repeatDay2.id
         }) {
             nameOfRepeatDays += "\(repeatDay.name) "
         }

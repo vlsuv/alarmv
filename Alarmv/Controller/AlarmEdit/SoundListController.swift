@@ -8,14 +8,19 @@
 
 import UIKit
 
+protocol SoundListControllerDelegate: class {
+    func didSelectedSound(_ sound: Sound)
+}
+
 class SoundListController: UIViewController {
     // MARK: - Properties
     private let tableView: UITableView = UITableView()
     private let soundManager = SoundManager()
+    weak var delegate: SoundListControllerDelegate!
     
     private let sounds: [Sound] = [
-        Sound(name: "Early Riser", fileName: "EarlyRiser"),
-        Sound(name: "Slow Morning", fileName: "SlowMorning")
+        Sound(name: "Early Riser", fileName: "EarlyRiser.mp3"),
+        Sound(name: "Slow Morning", fileName: "SlowMorning.mp3")
     ]
     
     // MARK: - Init
@@ -46,7 +51,6 @@ class SoundListController: UIViewController {
         
         tableView.rowHeight = 44
         tableView.separatorStyle = .none
-        tableView.allowsSelection = false
     }
     
     private func getSoundIndexPath(_ sound: Sound) -> IndexPath? {
@@ -81,7 +85,14 @@ extension SoundListController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension SoundListController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let selectedSound = sounds[indexPath.row]
+        delegate.didSelectedSound(selectedSound)
+        
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: - UITableViewDelegate

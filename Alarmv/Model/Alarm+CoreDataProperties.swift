@@ -23,4 +23,5 @@ extension Alarm {
     @NSManaged public var snoozeEnabled: Bool
     @NSManaged public var time: Date
     @NSManaged public var uuid: UUID
+    @NSManaged public var sound: Sound
 }
