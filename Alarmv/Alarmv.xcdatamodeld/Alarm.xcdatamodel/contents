@@ -3,7 +3,7 @@
     <entity name="Alarm" representedClassName="Alarm" syncable="YES">
         <attribute name="enabled" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="repeatDays" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="NSMutableDictionary"/>
+        <attribute name="repeatDays" attributeType="Transformable" valueTransformerName="" customClassName="[RepeatDay]"/>
         <attribute name="snoozeEnabled" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="time" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>

@@ -19,7 +19,7 @@ extension Alarm {
 
     @NSManaged public var enabled: Bool
     @NSManaged public var name: String
-    @NSManaged public var repeatDays: NSMutableDictionary
+    @NSManaged public var repeatDays: [RepeatDay]
     @NSManaged public var snoozeEnabled: Bool
     @NSManaged public var time: Date
     @NSManaged public var uuid: UUID

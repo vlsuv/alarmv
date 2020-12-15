@@ -176,10 +176,12 @@ extension AlarmEditController: TimeCellDelegate {
 // MARK: - DateCellDelegate
 extension AlarmEditController: DateCellDelegate {
     func didSelectedRepeatDay(_ weekday: RepeatDay) {
-        if alarm.repeatDays[weekday.id] != nil {
-            alarm.repeatDays.removeObject(forKey: weekday.id)
+        if alarm.repeatDays.contains(weekday) {
+            alarm.repeatDays.removeAll { repeatDay -> Bool in
+                repeatDay == weekday
+            }
         } else {
-            alarm.repeatDays[weekday.id] = weekday.name
+            alarm.repeatDays.append(weekday)
         }
         tableView.reloadData()
     }

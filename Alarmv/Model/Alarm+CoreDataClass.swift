@@ -18,16 +18,16 @@ public class Alarm: NSManagedObject {
         self.snoozeEnabled = false
         self.name = "Alarm"
         self.enabled = false
-        self.repeatDays = NSMutableDictionary()
+        self.repeatDays = [RepeatDay]()
     }
     
     func nameOfRepeatDays() -> String {
         var nameOfRepeatDays = ""
         
         for repeatDay in repeatDays.sorted(by: { repeatDay1, repeatDay2 -> Bool in
-            (repeatDay1.key as! Int) < (repeatDay2.key as! Int)
+            repeatDay1.id! < repeatDay2.id!
         }) {
-            nameOfRepeatDays += "\(repeatDay.value) "
+            nameOfRepeatDays += "\(repeatDay.name) "
         }
         
         return nameOfRepeatDays
