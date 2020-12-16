@@ -12,17 +12,20 @@ class AlarmListController: UIViewController {
     
     // MARK: - Properties
     private let tableView: UITableView = UITableView()
+    var emptyAlarmListImageView: UIImageView!
+    
     private let notificationManager = NotificationManager()
     private let dataManager = DataManager()
     
     private var alarms: [Alarm] = [Alarm]()
-
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
         configureNavigationController()
+        setupEmptyAlarmListImageView()
         configureTableView()
         fetchAlarms()
     }
@@ -73,11 +76,26 @@ class AlarmListController: UIViewController {
         tableView.separatorInset = .zero
         tableView.tableFooterView = UIView()
     }
+    
+    private func setupEmptyAlarmListImageView() {
+        emptyAlarmListImageView = UIImageView()
+        emptyAlarmListImageView.image = Images.emptyAlarmList
+        emptyAlarmListImageView.contentMode = .center
+        
+        view.addSubview(emptyAlarmListImageView)
+        emptyAlarmListImageView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
+    }
+    
+    private func showEmptyAlarmListImageView(_ isShow: Bool) {
+        tableView.isHidden = isShow
+        emptyAlarmListImageView.isHidden = !isShow
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension AlarmListController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        showEmptyAlarmListImageView(alarms.count == 0)
         return alarms.count
     }
     
