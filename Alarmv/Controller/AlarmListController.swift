@@ -42,21 +42,20 @@ class AlarmListController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc private func showAlarmEditPage() {
-        let alarmEditController = AlarmEditController()
-        alarmEditController.completion = { [weak self] in
-            DispatchQueue.main.async {
-                self?.fetchAlarms()
-                self?.navigationController?.popToRootViewController(animated: true)
-            }
-        }
+    @objc private func handleAdd() {
+        let alarmEditController = AlarmEditController(with: nil, delegate: self)
+        navigationController?.pushViewController(alarmEditController, animated: true)
+    }
+    
+    private func handleEdit(with alarm: Alarm) {
+        let alarmEditController = AlarmEditController(with: alarm, delegate: self)
         navigationController?.pushViewController(alarmEditController, animated: true)
     }
     
     // MARK: - Handlers
     private func configureNavigationController() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(showAlarmEditPage))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAdd))
         
         navigationController?.navigationBar.tintColor = Colors.blue
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -111,6 +110,9 @@ extension AlarmListController: UITableViewDataSource {
 extension AlarmListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let selectedAlarm = alarms[indexPath.row]
+        handleEdit(with: selectedAlarm)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -129,5 +131,15 @@ extension AlarmListController: UITableViewDelegate {
         deleteAction.image = Images.trash
         deleteAction.backgroundColor = Colors.red
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+}
+
+// MARK: - AlarmEditControllerDelegate
+extension AlarmListController: AlarmEditControllerDelegate {
+    func didTapSaveButton() {
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchAlarms()
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
     }
 }

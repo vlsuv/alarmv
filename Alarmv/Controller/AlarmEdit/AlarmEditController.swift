@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+protocol AlarmEditControllerDelegate {
+    func didTapSaveButton()
+}
+
 class AlarmEditController: UIViewController {
     // MARK: - Properties
     private let tableView: UITableView = UITableView()
@@ -20,12 +24,11 @@ class AlarmEditController: UIViewController {
         return switchControl
     }()
     
-    var completion: (() -> ())?
-    
     private let notificationManager = NotificationManager()
     private let dataManager = DataManager()
     
-    var alarm: Alarm = Alarm(context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
+    let delegate: AlarmEditControllerDelegate
+    let alarm: Alarm
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -39,6 +42,16 @@ class AlarmEditController: UIViewController {
     
     deinit {
         print("deinit: alarmeditcontroller")
+    }
+    
+    init(with alarm: Alarm?, delegate: AlarmEditControllerDelegate) {
+        self.alarm = alarm == nil ? Alarm(context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext) : alarm!
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Actions
@@ -163,7 +176,7 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
                 return
             }
             self?.dataManager.save()
-            self?.completion?()
+            self?.delegate.didTapSaveButton()
         }
     }
 }

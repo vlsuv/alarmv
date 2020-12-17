@@ -19,7 +19,7 @@ public class Alarm: NSManagedObject {
         self.name = "Alarm"
         self.enabled = false
         self.repeatDays = [RepeatDay]()
-        self.sound = Sound(name: "Early Riser", fileName: "EarlyRiser")
+        self.sound = Sound(name: "Early Riser", fileName: "EarlyRiser.mp3")
     }
     
     func nameOfRepeatDays() -> String {
