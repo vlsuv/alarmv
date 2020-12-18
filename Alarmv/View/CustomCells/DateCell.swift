@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DateCellDelegate: class {
-    func didSelectedRepeatDay(_ repeatDay: RepeatDay)
+    func didSelectedRepeatDay(_ day: RepeatDay)
 }
 
 class DateCell: UITableViewCell {
@@ -42,11 +42,20 @@ class DateCell: UITableViewCell {
     @objc func handleDate(_ sender: UIButton) {
         guard let index = dateButtons.firstIndex(of: sender) else {return}
         let repeatDay = repeatDays[index]
-    
-        sender.isSelected.toggle()
-        sender.backgroundColor = sender.isSelected ? Colors.blue : Colors.lightGray
         
         delegate.didSelectedRepeatDay(repeatDay)
+    }
+    
+    func updateButtonSelectionState(withRepeatDays repeatDays: [RepeatDay]) {
+        for dateButton in dateButtons {
+            if repeatDays.contains(where: { $0.id == dateButton.tag }) {
+                dateButton.isSelected = true
+                dateButton.backgroundColor = Colors.blue
+            } else {
+                dateButton.isSelected = false
+                dateButton.backgroundColor = Colors.lightGray
+            }
+        }
     }
     
     // MARK: - Handlers
@@ -68,6 +77,8 @@ class DateCell: UITableViewCell {
             button.backgroundColor = Colors.lightGray
             button.anchor(height: 38, width: 38)
             button.layer.cornerRadius = 38/2
+            
+            button.tag = repeatDay.id
             
             button.addTarget(self, action: #selector(handleDate(_:)), for: .touchUpInside)
             

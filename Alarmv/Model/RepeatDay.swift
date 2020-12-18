@@ -25,16 +25,12 @@ public class RepeatDay: NSObject, NSCoding {
     
     public required init?(coder: NSCoder) {
         self.name = coder.decodeObject(forKey: PropertyKeys.name) as? String ?? ""
-        self.id = coder.decodeObject(forKey: PropertyKeys.id) as? Int ?? 0
+        self.id = coder.decodeInteger(forKey: PropertyKeys.id)
         super.init()
     }
     
     public func encode(with coder: NSCoder) {
         coder.encode(self.name, forKey: PropertyKeys.name)
         coder.encode(self.id, forKey: PropertyKeys.id)
-    }
-    
-    static func ==(lhs: RepeatDay, rhs: RepeatDay) -> Bool {
-        return lhs.id == rhs.id
     }
 }

@@ -107,6 +107,7 @@ extension AlarmEditController: UITableViewDataSource {
         case .alarmDate:
             guard let dateCell = tableView.dequeueReusableCell(withIdentifier: DateCell.identifier, for: indexPath) as? DateCell else {return UITableViewCell()}
             dateCell.delegate = self
+            dateCell.updateButtonSelectionState(withRepeatDays: alarm.repeatDays)
             return dateCell
         case .repeatDate:
             guard let alarmEditCell = tableView.dequeueReusableCell(withIdentifier: AlarmEditCell.identifier, for: indexPath) as? AlarmEditCell else {return UITableViewCell()}
@@ -190,13 +191,11 @@ extension AlarmEditController: TimeCellDelegate {
 
 // MARK: - DateCellDelegate
 extension AlarmEditController: DateCellDelegate {
-    func didSelectedRepeatDay(_ weekday: RepeatDay) {
-        if alarm.repeatDays.contains(weekday) {
-            alarm.repeatDays.removeAll { repeatDay -> Bool in
-                repeatDay == weekday
-            }
+    func didSelectedRepeatDay(_ day: RepeatDay) {
+        if let index = alarm.repeatDays.firstIndex(where: { $0.id == day.id }) {
+            alarm.repeatDays.remove(at: index)
         } else {
-            alarm.repeatDays.append(weekday)
+            alarm.repeatDays.append(day)
         }
         tableView.reloadData()
     }
