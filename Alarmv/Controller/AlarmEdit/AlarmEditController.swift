@@ -28,7 +28,8 @@ class AlarmEditController: UIViewController {
     private let dataManager = DataManager()
     
     let delegate: AlarmEditControllerDelegate
-    let alarm: Alarm
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let alarm: Alarm
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -45,7 +46,7 @@ class AlarmEditController: UIViewController {
     }
     
     init(with alarm: Alarm?, delegate: AlarmEditControllerDelegate) {
-        self.alarm = alarm == nil ? Alarm(context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext) : alarm!
+        self.alarm = alarm == nil ? Alarm(context: context) : alarm!
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -59,10 +60,16 @@ class AlarmEditController: UIViewController {
         alarm.snoozeEnabled = sender.isOn
     }
     
+    @objc private func handleCancel() {
+        context.reset()
+        navigationController?.popViewController(animated: true)
+    }
+    
     // MARK: - Handlers
     private func configureNavigationController() {
         navigationController?.navigationBar.tintColor = Colors.blue
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.title = "Edit Alarm"
     }
     
@@ -165,7 +172,7 @@ extension AlarmEditController: UITableViewDelegate {
 // MARK: - AlarmEditTableFooterViewDelegate
 extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     func didTapCancelButton() {
-        navigationController?.popViewController(animated: true)
+        handleCancel()
     }
     
     func didTapSaveButton() {
