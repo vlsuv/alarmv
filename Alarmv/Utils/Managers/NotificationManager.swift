@@ -13,6 +13,11 @@ final class NotificationManager: NSObject {
     
     let notificationCenter = UNUserNotificationCenter.current()
     
+    enum NotificationActionKeys {
+        static let snooze: String = "snooze"
+        static let stop: String = "stop"
+    }
+    
     func requestAuthorization() {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         
@@ -28,10 +33,24 @@ final class NotificationManager: NSObject {
         }
     }
     
+    func registerCategories() {
+        let snoozeAction = UNNotificationAction(identifier: NotificationActionKeys.snooze,
+                                                title: "snooze",
+                                                options: .foreground)
+        let stopAction = UNNotificationAction(identifier: NotificationActionKeys.stop,
+                                              title: "stop",
+                                              options: .foreground)
+
+        let category = UNNotificationCategory(identifier: "alarm", actions: [snoozeAction, stopAction], intentIdentifiers: [])
+        
+        notificationCenter.setNotificationCategories([category])
+    }
+    
     func setNotificationWithDate(id: String, title: String, date: Date, snooze: Bool, sound: Sound, completion: @escaping (Error?) -> () ) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.sound = UNNotificationSound(named: UNNotificationSoundName(sound.fileName))
+        content.categoryIdentifier = "alarm"
         
         let triggerWeekly = Calendar.current.dateComponents([.weekday, .hour, .minute], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly, repeats: true)
@@ -46,7 +65,7 @@ final class NotificationManager: NSObject {
         }
     }
     
-    func deleteNotification(_ identifier: String) {
+    func deleteNotification(withIdentifier identifier: String) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
     }
 }
@@ -54,5 +73,28 @@ final class NotificationManager: NSObject {
 extension NotificationManager: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let request = response.notification.request
+        let content = request.content
+        
+        switch response.actionIdentifier {
+        case NotificationActionKeys.snooze:
+            let snoozeTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
+            let snoozeRequest = UNNotificationRequest(identifier: request.identifier, content: content, trigger: snoozeTrigger)
+            notificationCenter.add(snoozeRequest) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+            }
+        case NotificationActionKeys.stop:
+            print("stop action")
+        default:
+            break
+        }
+        completionHandler()
     }
 }

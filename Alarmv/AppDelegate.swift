@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         notificationManager.notificationCenter.delegate = notificationManager
         notificationManager.requestAuthorization()
+        notificationManager.registerCategories()
     
         return true
     }
