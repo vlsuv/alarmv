@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol AlarmListCellDelegate: class {
+    func didChangeSwitchControlValue(with cell: AlarmListCell)
+}
+
 class AlarmListCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "alarmListCell"
+    weak var delegate: AlarmListCellDelegate!
     
     let alarmNameLabel: UILabel = {
         let label = UILabel()
@@ -54,6 +59,11 @@ class AlarmListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Actions
+    @objc private func handleChangeSwitchControlValue() {
+        delegate.didChangeSwitchControlValue(with: self)
+    }
+    
     // MARK: - Handlers
     private func setupAlarmLabels() {
         let stackView = UIStackView(arrangedSubviews: [alarmNameLabel, alarmDateLabel])
@@ -70,5 +80,6 @@ class AlarmListCell: UITableViewCell {
         addSubview(alarmSwitchControl)
         alarmSwitchControl.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         alarmSwitchControl.anchor(right: rightAnchor, paddingRight: Spaces.baseHorizontalSpace)
+        alarmSwitchControl.addTarget(self, action: #selector(handleChangeSwitchControlValue), for: .valueChanged)
     }
 }

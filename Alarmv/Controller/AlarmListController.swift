@@ -100,6 +100,7 @@ extension AlarmListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AlarmListCell.identifier, for: indexPath) as! AlarmListCell
+        cell.delegate = self
         let alarm = alarms[indexPath.row]
         cell.configure(with: alarm)
         return cell
@@ -141,5 +142,15 @@ extension AlarmListController: AlarmEditControllerDelegate {
             self?.fetchAlarms()
             self?.navigationController?.popToRootViewController(animated: true)
         }
+    }
+}
+
+// MARK: - AlarmListCellDelegate
+extension AlarmListController: AlarmListCellDelegate {
+    func didChangeSwitchControlValue(with cell: AlarmListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {return}
+        let alarm = alarms[indexPath.row]
+        alarm.enabled.toggle()
+        dataManager.save()
     }
 }
