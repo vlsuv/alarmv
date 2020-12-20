@@ -123,7 +123,7 @@ extension AlarmListController: UITableViewDelegate {
         let alarm = alarms[indexPath.row]
         
         let deleteAction = UIContextualAction(style: .normal, title: "") { [weak self] action, uiview, completion in
-            self?.notificationManager.deleteNotification(withIdentifier: alarm.uuid.uuidString)
+            self?.notificationManager.deleteNotification(withIdentifier: alarm.uuid)
             self?.dataManager.delete(alarm)
             self?.dataManager.save()
             self?.fetchAlarms()

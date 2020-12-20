@@ -62,7 +62,7 @@ class AlarmEditController: UIViewController {
     
     @objc private func handleCancel() {
         context.reset()
-        navigationController?.popViewController(animated: true)
+        delegate.didTapSaveButton()
     }
     
     // MARK: - Handlers
@@ -178,7 +178,7 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     func didTapSaveButton() {
         let date = DateHelper.createDate(time: alarm.time)
         
-        notificationManager.setNotificationWithDate(id: alarm.uuid.uuidString, title: alarm.name, date: date, snooze: alarm.snoozeEnabled, sound: alarm.sound) { [weak self] error in
+        notificationManager.setNotificationWithDate(id: alarm.uuid, title: alarm.name, date: date, snooze: alarm.snoozeEnabled, sound: alarm.sound) { [weak self] error in
             if let error = error {
                 print(error.localizedDescription)
                 return

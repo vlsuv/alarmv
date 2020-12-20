@@ -7,7 +7,7 @@
         <attribute name="snoozeEnabled" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="sound" attributeType="Transformable" valueTransformerName="" customClassName="Sound"/>
         <attribute name="time" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="uuid" attributeType="String"/>
     </entity>
     <elements>
         <element name="Alarm" positionX="-1036.0859375" positionY="-2.734375" width="128" height="148"/>

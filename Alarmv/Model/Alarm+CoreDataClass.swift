@@ -13,7 +13,7 @@ import CoreData
 @objc(Alarm)
 public class Alarm: NSManagedObject {
     public override func awakeFromInsert() {
-        self.uuid = UUID()
+        self.uuid = UUID().uuidString
         self.time = Date()
         self.snoozeEnabled = false
         self.name = "Alarm"
