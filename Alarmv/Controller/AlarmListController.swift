@@ -39,6 +39,7 @@ class AlarmListController: UIViewController {
                 self?.tableView.reloadData()
             }
         }
+        notificationManager.reShedule(self.alarms)
     }
     
     // MARK: - Actions
@@ -149,8 +150,11 @@ extension AlarmListController: AlarmEditControllerDelegate {
 extension AlarmListController: AlarmListCellDelegate {
     func didChangeSwitchControlValue(with cell: AlarmListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {return}
+        
         let alarm = alarms[indexPath.row]
         alarm.enabled.toggle()
+        
         dataManager.save()
+        notificationManager.reShedule(self.alarms)
     }
 }

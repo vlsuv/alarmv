@@ -12,7 +12,7 @@ final class DateHelper {
     
     private init() {}
     
-    static func createDate(time: Date) -> Date {
+    static func createTime(time: Date) -> Date {
         let hour = Calendar.current.component(.hour, from: time)
         let minute = Calendar.current.component(.minute, from: time)
         let weekday = Calendar.current.component(.weekday, from: time)

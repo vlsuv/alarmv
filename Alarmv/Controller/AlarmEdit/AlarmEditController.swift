@@ -176,16 +176,8 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     }
     
     func didTapSaveButton() {
-        let date = DateHelper.createDate(time: alarm.time)
-        
-        notificationManager.setNotificationWithDate(id: alarm.uuid, title: alarm.name, date: date, snooze: alarm.snoozeEnabled, sound: alarm.sound) { [weak self] error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            self?.dataManager.save()
-            self?.delegate.didTapSaveButton()
-        }
+        self.dataManager.save()
+        self.delegate.didTapSaveButton()
     }
 }
 

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import UserNotifications
 
 final class NotificationManager: NSObject {
@@ -16,6 +17,10 @@ final class NotificationManager: NSObject {
     enum NotificationActionKeys {
         static let snooze: String = "snooze"
         static let stop: String = "stop"
+    }
+    
+    enum NotificationCategoryKeys {
+        static let alarm: String = "alarm"
     }
     
     func requestAuthorization() {
@@ -41,27 +46,80 @@ final class NotificationManager: NSObject {
                                               title: "stop",
                                               options: .foreground)
 
-        let category = UNNotificationCategory(identifier: "alarm", actions: [snoozeAction, stopAction], intentIdentifiers: [])
+        let category = UNNotificationCategory(identifier: NotificationCategoryKeys.alarm, actions: [snoozeAction, stopAction], intentIdentifiers: [])
         
         notificationCenter.setNotificationCategories([category])
     }
     
-    func setNotificationWithDate(id: String, title: String, date: Date, snooze: Bool, sound: Sound, completion: @escaping (Error?) -> () ) {
+    func setNotificationWithDate(id: String, title: String, time: Date, repeatDays: [RepeatDay], snooze: Bool, sound: Sound, completion: @escaping (Error?) -> () ) {
+        
         let content = UNMutableNotificationContent()
         content.title = title
         content.sound = UNNotificationSound(named: UNNotificationSoundName(sound.fileName))
-        content.categoryIdentifier = "alarm"
+        content.categoryIdentifier = NotificationCategoryKeys.alarm
+        content.userInfo = ["id": id]
         
-        let triggerWeekly = Calendar.current.dateComponents([.weekday, .hour, .minute], from: date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly, repeats: true)
+        let hour = Calendar.current.component(.hour, from: time)
+        let minute = Calendar.current.component(.minute, from: time)
+        let weekDay = Calendar.current.component(.weekday, from: time)
         
-        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
-        notificationCenter.add(request) { error in
-            if let error = error {
-                completion(error)
-                return
+        if repeatDays.count > 0 {
+            for repeatDay in repeatDays {
+                var components = DateComponents()
+                components.hour = hour
+                components.minute = minute
+                components.weekday = repeatDay.id
+                components.weekdayOrdinal = 10
+                components.timeZone = .current
+                let calendar = Calendar(identifier: .gregorian)
+                
+                let triggerWeekly = Calendar.current.dateComponents([.weekday, .hour, .minute], from: calendar.date(from: components)!)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly, repeats: true)
+                
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                notificationCenter.add(request) { error in
+                    if let error = error {
+                        completion(error)
+                        return
+                    }
+                    completion(nil)
+                }
             }
-            completion(nil)
+        } else {
+            var components = DateComponents()
+            components.hour = hour
+            components.minute = minute
+            components.weekday = weekDay
+            components.weekdayOrdinal = 10
+            components.timeZone = .current
+            let calendar = Calendar(identifier: .gregorian)
+            
+            let triggerWeekly = Calendar.current.dateComponents([.weekday, .hour, .minute], from: calendar.date(from: components)!)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            notificationCenter.add(request) { error in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+                completion(nil)
+            }
+        }
+    }
+    
+    func reShedule(_ alarms: [Alarm]) {
+        notificationCenter.removeAllPendingNotificationRequests()
+        
+        for alarm in alarms {
+            if alarm.enabled {
+                setNotificationWithDate(id: alarm.uuid, title: alarm.name, time: alarm.time, repeatDays: alarm.repeatDays, snooze: alarm.snoozeEnabled, sound: alarm.sound) { error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        return
+                    }
+                }
+            }
         }
     }
     
