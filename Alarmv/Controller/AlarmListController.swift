@@ -53,9 +53,13 @@ class AlarmListController: UIViewController {
         navigationController?.pushViewController(alarmEditController, animated: true)
     }
     
+    @objc private func showSettings() {
+        navigationController?.pushViewController(SettingsController(), animated: true)
+    }
+    
     // MARK: - Handlers
     private func configureNavigationController() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(showSettings))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAdd))
         
         navigationController?.navigationBar.tintColor = Colors.blue
