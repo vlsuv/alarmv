@@ -20,7 +20,7 @@ class SoundListCell: UITableViewCell {
     let soundNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .light)
-        label.textColor = Colors.black
+        label.textColor = AssetsColor.text
         return label
     }()
     
@@ -35,6 +35,8 @@ class SoundListCell: UITableViewCell {
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
+        
         setupSoundNameLabel()
         setupPlayButton()
     }

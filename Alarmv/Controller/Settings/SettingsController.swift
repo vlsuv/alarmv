@@ -16,7 +16,7 @@ class SettingsController: UIViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.white
+        view.backgroundColor = AssetsColor.background
         
         configureModels()
         configureTableView()
@@ -38,7 +38,7 @@ class SettingsController: UIViewController {
         view.addSubview(tableView)
         tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
         
-        tableView.backgroundColor = Colors.white
+        tableView.backgroundColor = AssetsColor.background
     }
     
     private func configureModels() {
@@ -46,7 +46,9 @@ class SettingsController: UIViewController {
             SettingsSection(title: "Appearance",
                             options: [
                                 .switchCell(model: SettingsSwitchOption(title: "Dark Mode", icon: nil, handler: {
-                                    print("change theme")
+                                    UIApplication.shared.windows.forEach { window in
+                                        window.overrideUserInterfaceStyle = .dark
+                                    }
                                 }, isOn: false))
             ]),
             SettingsSection(title: "About",

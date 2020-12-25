@@ -19,7 +19,7 @@ class AlarmListCell: UITableViewCell {
     
     let alarmNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = Colors.black
+        label.textColor = AssetsColor.text
         label.font = .systemFont(ofSize: 36, weight: .thin)
         return label
     }()
@@ -50,6 +50,7 @@ class AlarmListCell: UITableViewCell {
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
         
         setupAlarmLabels()
         setupAlarmSwitchControl()

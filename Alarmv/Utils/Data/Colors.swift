@@ -16,3 +16,8 @@ enum Colors {
     static let lightGray = UIColor(hex: "#EDEDED")
     static let red = UIColor(hex: "#FF0000")
 }
+
+enum AssetsColor {
+    static let background = UIColor(named: "background")
+    static let text = UIColor(named: "text")
+}

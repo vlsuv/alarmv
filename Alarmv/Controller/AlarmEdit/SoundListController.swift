@@ -26,7 +26,7 @@ class SoundListController: UIViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.white
+        view.backgroundColor = AssetsColor.background
         
         configureTableView()
         configureNavigationController()
@@ -51,6 +51,7 @@ class SoundListController: UIViewController {
         
         tableView.rowHeight = 44
         tableView.separatorStyle = .none
+        tableView.backgroundColor = AssetsColor.background
     }
     
     private func getSoundIndexPath(_ sound: Sound) -> IndexPath? {

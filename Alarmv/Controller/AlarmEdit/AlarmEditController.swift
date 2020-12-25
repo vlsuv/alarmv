@@ -34,7 +34,7 @@ class AlarmEditController: UIViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.white
+        view.backgroundColor = AssetsColor.background
         snoozeSwitchControl.isOn = alarm.snoozeEnabled
         
         configureTableView()
@@ -93,6 +93,7 @@ class AlarmEditController: UIViewController {
         tableView.tableFooterView = alarmEditTableFooterView
         alarmEditTableFooterView.delegate = self
         tableView.tableFooterView?.frame.size.height = Sizes.buttonHeight
+        tableView.backgroundColor = AssetsColor.background
     }
 }
 

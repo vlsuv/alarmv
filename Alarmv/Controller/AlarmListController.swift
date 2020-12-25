@@ -22,7 +22,7 @@ class AlarmListController: UIViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = AssetsColor.background
         
         configureNavigationController()
         setupEmptyAlarmListImageView()
@@ -65,6 +65,7 @@ class AlarmListController: UIViewController {
         navigationController?.navigationBar.tintColor = Colors.blue
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Alarms"
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: AssetsColor.text]
     }
     
     private func configureTableView() {
@@ -79,6 +80,7 @@ class AlarmListController: UIViewController {
         tableView.rowHeight = Sizes.alarmCellHeight
         tableView.separatorInset = .zero
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = AssetsColor.background
     }
     
     private func setupEmptyAlarmListImageView() {
