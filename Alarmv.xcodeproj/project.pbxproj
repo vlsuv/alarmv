@@ -17,6 +17,7 @@
 		677760212583BAC300AE179B /* FieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677760202583BAC300AE179B /* FieldCell.swift */; };
 		678962562579000100F1C550 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678962552579000100F1C550 /* Style.swift */; };
 		679B8BB4257E7F5000D08287 /* EarlyRiser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 679B8BB3257E7F5000D08287 /* EarlyRiser.mp3 */; };
+		679DF5B02595DE3F0016CA4A /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679DF5AF2595DE3F0016CA4A /* UserSettings.swift */; };
 		67A334412590E620001EDB59 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A334402590E620001EDB59 /* SettingsController.swift */; };
 		67AA76C2257A5DC600643F3C /* AlarmEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AA76C1257A5DC600643F3C /* AlarmEditCell.swift */; };
 		67BB94A12577D6DD0083B5D6 /* TimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BB94A02577D6DD0083B5D6 /* TimeCell.swift */; };
@@ -55,6 +56,7 @@
 		677760202583BAC300AE179B /* FieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldCell.swift; sourceTree = "<group>"; };
 		678962552579000100F1C550 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		679B8BB3257E7F5000D08287 /* EarlyRiser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = EarlyRiser.mp3; sourceTree = "<group>"; };
+		679DF5AF2595DE3F0016CA4A /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		67A334402590E620001EDB59 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		67AA76C1257A5DC600643F3C /* AlarmEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditCell.swift; sourceTree = "<group>"; };
 		67BB94A02577D6DD0083B5D6 /* TimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCell.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				6777601D2583AFF800AE179B /* DateHelper.swift */,
+				679DF5AF2595DE3F0016CA4A /* UserSettings.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				67D627A425878F8D00727A75 /* SoundManager.swift in Sources */,
 				6749304725865EAC00BF7D85 /* Images.swift in Sources */,
 				67EAF90825824C6D00E922C3 /* Alarm+CoreDataProperties.swift in Sources */,
+				679DF5B02595DE3F0016CA4A /* UserSettings.swift in Sources */,
 				6749304D25866FEA00BF7D85 /* SoundListCell.swift in Sources */,
 				670857EA257FCF8A009C79D2 /* RepeatDay.swift in Sources */,
 				67BB94A92577F0590083B5D6 /* AlarmEditSection.swift in Sources */,

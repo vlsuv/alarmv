@@ -46,10 +46,12 @@ class SettingsController: UIViewController {
             SettingsSection(title: "Appearance",
                             options: [
                                 .switchCell(model: SettingsSwitchOption(title: "Dark Mode", icon: nil, handler: {
+                                    UserSettings.darkMode = !UserSettings.darkMode
+                                    
                                     UIApplication.shared.windows.forEach { window in
-                                        window.overrideUserInterfaceStyle = .dark
+                                        window.overrideUserInterfaceStyle = UserSettings.darkMode ? .dark : .light
                                     }
-                                }, isOn: false))
+                                }, isOn: UserSettings.darkMode))
             ]),
             SettingsSection(title: "About",
                             options: [

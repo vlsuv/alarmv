@@ -22,6 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.rootViewController = UINavigationController(rootViewController: rootViewController)
         window?.makeKeyAndVisible()
+        
+        window?.overrideUserInterfaceStyle = UserSettings.darkMode ? .dark : .light
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
