@@ -9,8 +9,14 @@
 import UIKit
 
 class SettingsController: UIViewController {
+    
     // MARK: - Properties
-    private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
+    private let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.backgroundColor = AssetsColor.background
+        return tableView
+    }()
+    
     private var models: [SettingsSection] = [SettingsSection]()
     
     // MARK: - Init
@@ -37,8 +43,6 @@ class SettingsController: UIViewController {
         
         view.addSubview(tableView)
         tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
-        
-        tableView.backgroundColor = AssetsColor.background
     }
     
     private func configureModels() {

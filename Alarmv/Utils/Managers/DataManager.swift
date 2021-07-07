@@ -9,9 +9,15 @@
 import UIKit
 import CoreData
 
-class DataManager {
+protocol DataManagerType {
+    func save()
+    func delete(_ object: NSManagedObject)
+    func fetch(completion: (([Alarm]) -> ()))
+}
+
+class DataManager: DataManagerType {
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func save() {
         do {

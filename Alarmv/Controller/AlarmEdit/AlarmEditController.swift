@@ -9,14 +9,19 @@
 import UIKit
 import CoreData
 
-protocol AlarmEditControllerDelegate {
-    func didTapSaveButton()
-}
-
 class AlarmEditController: UIViewController {
+    
     // MARK: - Properties
-    private let tableView: UITableView = UITableView()
-    private let alarmEditTableFooterView = AlarmEditTableFooterView()
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        return tableView
+    }()
+    
+    private let alarmEditTableFooterView: AlarmEditTableFooterView = {
+        let view = AlarmEditTableFooterView()
+        return view
+    }()
+    
     private let snoozeSwitchControl: UISwitch = {
         let switchControl = UISwitch()
         switchControl.onTintColor = Colors.blue
@@ -24,18 +29,25 @@ class AlarmEditController: UIViewController {
         return switchControl
     }()
     
-    private let notificationManager = NotificationManager()
-    private let dataManager = DataManager()
+    private var notificationManager: NotificationManager!
     
-    let delegate: AlarmEditControllerDelegate
+    private var dataManager: DataManagerType!
+    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     private let alarm: Alarm
+    
+    var completion: (() -> ())?
     
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = AssetsColor.background
+        
         snoozeSwitchControl.isOn = alarm.snoozeEnabled
+        
+        notificationManager = NotificationManager()
+        dataManager = DataManager()
         
         configureTableView()
         configureNavigationController()
@@ -45,9 +57,8 @@ class AlarmEditController: UIViewController {
         print("deinit: alarmeditcontroller")
     }
     
-    init(with alarm: Alarm?, delegate: AlarmEditControllerDelegate) {
+    init(with alarm: Alarm?) {
         self.alarm = alarm == nil ? Alarm(context: context) : alarm!
-        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -62,7 +73,7 @@ class AlarmEditController: UIViewController {
     
     @objc private func handleCancel() {
         context.reset()
-        delegate.didTapSaveButton()
+        completion?()
     }
     
     // MARK: - Handlers
@@ -178,7 +189,7 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     
     func didTapSaveButton() {
         self.dataManager.save()
-        self.delegate.didTapSaveButton()
+        completion?()
     }
 }
 

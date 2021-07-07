@@ -11,11 +11,25 @@ import UIKit
 class AlarmListController: UIViewController {
     
     // MARK: - Properties
-    private let tableView: UITableView = UITableView()
-    var emptyAlarmListImageView: UIImageView!
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.rowHeight = Sizes.alarmCellHeight
+        tableView.separatorInset = .zero
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = AssetsColor.background
+        return tableView
+    }()
     
-    private let notificationManager = NotificationManager()
-    private let dataManager = DataManager()
+    var emptyAlarmListImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Images.emptyAlarmList
+        imageView.contentMode = .center
+        return imageView
+    }()
+    
+    private var notificationManager: NotificationManager!
+    
+    private var dataManager: DataManagerType!
     
     private var alarms: [Alarm] = [Alarm]()
     
@@ -24,14 +38,17 @@ class AlarmListController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = AssetsColor.background
         
+        notificationManager = NotificationManager()
+        dataManager = DataManager()
+        
         configureNavigationController()
-        setupEmptyAlarmListImageView()
+        configureEmptyAlarmListImageView()
         configureTableView()
-        fetchAlarms()
+        getAlarms()
     }
     
     // MARK: - Requests
-    private func fetchAlarms() {
+    private func getAlarms() {
         dataManager.fetch { [weak self] alarms in
             self?.alarms = alarms
             
@@ -44,12 +61,24 @@ class AlarmListController: UIViewController {
     
     // MARK: - Actions
     @objc private func handleAdd() {
-        let alarmEditController = AlarmEditController(with: nil, delegate: self)
+        let alarmEditController = AlarmEditController(with: nil)
+        alarmEditController.completion = {
+            DispatchQueue.main.async { [weak self] in
+                self?.getAlarms()
+                self?.navigationController?.popToRootViewController(animated: true)
+            }
+        }
         navigationController?.pushViewController(alarmEditController, animated: true)
     }
     
     private func handleEdit(with alarm: Alarm) {
-        let alarmEditController = AlarmEditController(with: alarm, delegate: self)
+        let alarmEditController = AlarmEditController(with: alarm)
+        alarmEditController.completion = {
+            DispatchQueue.main.async { [weak self] in
+                self?.getAlarms()
+                self?.navigationController?.popToRootViewController(animated: true)
+            }
+        }
         navigationController?.pushViewController(alarmEditController, animated: true)
     }
     
@@ -76,18 +105,9 @@ class AlarmListController: UIViewController {
         
         view.addSubview(tableView)
         tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
-        
-        tableView.rowHeight = Sizes.alarmCellHeight
-        tableView.separatorInset = .zero
-        tableView.tableFooterView = UIView()
-        tableView.backgroundColor = AssetsColor.background
     }
     
-    private func setupEmptyAlarmListImageView() {
-        emptyAlarmListImageView = UIImageView()
-        emptyAlarmListImageView.image = Images.emptyAlarmList
-        emptyAlarmListImageView.contentMode = .center
-        
+    private func configureEmptyAlarmListImageView() {
         view.addSubview(emptyAlarmListImageView)
         emptyAlarmListImageView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
     }
@@ -134,21 +154,11 @@ extension AlarmListController: UITableViewDelegate {
             self?.notificationManager.deleteNotification(withIdentifier: alarm.uuid)
             self?.dataManager.delete(alarm)
             self?.dataManager.save()
-            self?.fetchAlarms()
+            self?.getAlarms()
         }
         deleteAction.image = Images.trash
         deleteAction.backgroundColor = Colors.red
         return UISwipeActionsConfiguration(actions: [deleteAction])
-    }
-}
-
-// MARK: - AlarmEditControllerDelegate
-extension AlarmListController: AlarmEditControllerDelegate {
-    func didTapSaveButton() {
-        DispatchQueue.main.async { [weak self] in
-            self?.fetchAlarms()
-            self?.navigationController?.popToRootViewController(animated: true)
-        }
     }
 }
 

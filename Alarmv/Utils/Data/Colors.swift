@@ -18,6 +18,6 @@ enum Colors {
 }
 
 enum AssetsColor {
-    static let background = UIColor(named: "background")
-    static let text = UIColor(named: "text")
+    static let background = UIColor(named: "background") ?? UIColor()
+    static let text = UIColor(named: "text") ?? UIColor()
 }

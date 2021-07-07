@@ -13,10 +13,19 @@ protocol SoundListControllerDelegate: class {
 }
 
 class SoundListController: UIViewController {
+    
     // MARK: - Properties
-    private let tableView: UITableView = UITableView()
-    private let soundManager = SoundManager()
     weak var delegate: SoundListControllerDelegate!
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.rowHeight = 44
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = AssetsColor.background
+        return tableView
+    }()
+    
+    private var soundManager: SoundManager!
     
     private let sounds: [Sound] = [
         Sound(name: "Early Riser", fileName: "EarlyRiser.mp3"),
@@ -28,6 +37,8 @@ class SoundListController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = AssetsColor.background
         
+        soundManager = SoundManager()
+        
         configureTableView()
         configureNavigationController()
     }
@@ -36,7 +47,7 @@ class SoundListController: UIViewController {
         print("deinit: soundlistcontroller")
     }
     
-    // MARK: - Handlers
+    // MARK: - Configures
     private func configureNavigationController() {
         navigationItem.title = "Sounds"
     }
@@ -48,12 +59,9 @@ class SoundListController: UIViewController {
         
         view.addSubview(tableView)
         tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor)
-        
-        tableView.rowHeight = 44
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = AssetsColor.background
     }
     
+    // MARK: - Sound Manage
     private func getSoundIndexPath(_ sound: Sound) -> IndexPath? {
         guard let soundRow = sounds.firstIndex(of: sound) else {return nil}
         return IndexPath(row: soundRow, section: 0)
