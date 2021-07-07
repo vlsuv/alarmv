@@ -13,7 +13,7 @@ class SettingsController: UIViewController {
     // MARK: - Properties
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.backgroundColor = AssetsColor.background
+        tableView.backgroundColor = Color.background
         return tableView
     }()
     
@@ -22,7 +22,7 @@ class SettingsController: UIViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = AssetsColor.background
+        view.backgroundColor = Color.background
         
         configureModels()
         configureTableView()

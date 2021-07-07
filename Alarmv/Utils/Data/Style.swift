@@ -10,7 +10,6 @@ import UIKit
 
 enum Spaces {
     static let baseHorizontalSpace: CGFloat = 18
-    
 }
 
 enum Sizes {

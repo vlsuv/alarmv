@@ -16,7 +16,7 @@ class AlarmListController: UIViewController {
         tableView.rowHeight = Sizes.alarmCellHeight
         tableView.separatorInset = .zero
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = AssetsColor.background
+        tableView.backgroundColor = Color.background
         return tableView
     }()
     
@@ -27,16 +27,16 @@ class AlarmListController: UIViewController {
         return imageView
     }()
     
-    private var notificationManager: NotificationManager!
+    private var notificationManager: NotificationManagerType?
     
-    private var dataManager: DataManagerType!
+    private var dataManager: DataManagerType?
     
     private var alarms: [Alarm] = [Alarm]()
     
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = AssetsColor.background
+        view.backgroundColor = Color.background
         
         notificationManager = NotificationManager()
         dataManager = DataManager()
@@ -47,16 +47,16 @@ class AlarmListController: UIViewController {
         getAlarms()
     }
     
-    // MARK: - Requests
+    // MARK: - Fetch
     private func getAlarms() {
-        dataManager.fetch { [weak self] alarms in
+        dataManager?.fetch { [weak self] alarms in
             self?.alarms = alarms
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
         }
-        notificationManager.reShedule(self.alarms)
+        notificationManager?.reShedule(self.alarms)
     }
     
     // MARK: - Actions
@@ -86,15 +86,15 @@ class AlarmListController: UIViewController {
         navigationController?.pushViewController(SettingsController(), animated: true)
     }
     
-    // MARK: - Handlers
+    // MARK: - Configures
     private func configureNavigationController() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(showSettings))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAdd))
         
-        navigationController?.navigationBar.tintColor = Colors.blue
+        navigationController?.navigationBar.tintColor = Color.blue
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Alarms"
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: AssetsColor.text]
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Color.text]
     }
     
     private func configureTableView() {
@@ -151,13 +151,13 @@ extension AlarmListController: UITableViewDelegate {
         let alarm = alarms[indexPath.row]
         
         let deleteAction = UIContextualAction(style: .normal, title: "") { [weak self] action, uiview, completion in
-            self?.notificationManager.deleteNotification(withIdentifier: alarm.uuid)
-            self?.dataManager.delete(alarm)
-            self?.dataManager.save()
+            self?.notificationManager?.deleteNotification(withIdentifier: alarm.uuid)
+            self?.dataManager?.delete(alarm)
+            self?.dataManager?.save()
             self?.getAlarms()
         }
         deleteAction.image = Images.trash
-        deleteAction.backgroundColor = Colors.red
+        deleteAction.backgroundColor = Color.red
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
@@ -170,7 +170,7 @@ extension AlarmListController: AlarmListCellDelegate {
         let alarm = alarms[indexPath.row]
         alarm.enabled.toggle()
         
-        dataManager.save()
-        notificationManager.reShedule(self.alarms)
+        dataManager?.save()
+        notificationManager?.reShedule(self.alarms)
     }
 }

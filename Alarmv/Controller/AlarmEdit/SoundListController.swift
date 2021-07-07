@@ -21,7 +21,7 @@ class SoundListController: UIViewController {
         let tableView = UITableView()
         tableView.rowHeight = 44
         tableView.separatorStyle = .none
-        tableView.backgroundColor = AssetsColor.background
+        tableView.backgroundColor = Color.background
         return tableView
     }()
     
@@ -35,7 +35,7 @@ class SoundListController: UIViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = AssetsColor.background
+        view.backgroundColor = Color.background
         
         soundManager = SoundManager()
         

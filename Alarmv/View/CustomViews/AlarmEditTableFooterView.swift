@@ -21,10 +21,10 @@ class AlarmEditTableFooterView: UIView {
         let button = UIButton()
         let normalAttributedString = NSAttributedString(string: "Cancel", attributes: [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium),
-            NSAttributedString.Key.foregroundColor: Colors.white
+            NSAttributedString.Key.foregroundColor: Color.white
         ])
         button.setAttributedTitle(normalAttributedString, for: .normal)
-        button.backgroundColor = Colors.blue
+        button.backgroundColor = Color.blue
         button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
         return button
     }()
@@ -33,10 +33,10 @@ class AlarmEditTableFooterView: UIView {
         let button = UIButton()
         let normalAttributedString = NSAttributedString(string: "Save", attributes: [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium),
-            NSAttributedString.Key.foregroundColor: Colors.white
+            NSAttributedString.Key.foregroundColor: Color.white
         ])
         button.setAttributedTitle(normalAttributedString, for: .normal)
-        button.backgroundColor = Colors.blue
+        button.backgroundColor = Color.blue
         button.addTarget(self, action: #selector(handleSave), for: .touchUpInside)
         return button
     }()

@@ -52,10 +52,10 @@ class DateCell: UITableViewCell {
         for dateButton in dateButtons {
             if repeatDays.contains(where: { $0.id == dateButton.tag }) {
                 dateButton.isSelected = true
-                dateButton.backgroundColor = Colors.blue
+                dateButton.backgroundColor = Color.blue
             } else {
                 dateButton.isSelected = false
-                dateButton.backgroundColor = Colors.lightGray
+                dateButton.backgroundColor = Color.lightGray
             }
         }
     }
@@ -67,16 +67,16 @@ class DateCell: UITableViewCell {
             
             let normalAttributedString = NSAttributedString(string: repeatDay.name, attributes: [
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular),
-                NSAttributedString.Key.foregroundColor: Colors.black
+                NSAttributedString.Key.foregroundColor: Color.black
                 ])
             let selectedAttributedString = NSAttributedString(string: repeatDay.name, attributes: [
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .regular),
-                NSAttributedString.Key.foregroundColor: Colors.white
+                NSAttributedString.Key.foregroundColor: Color.white
             ])
             
             button.setAttributedTitle(normalAttributedString, for: .normal)
             button.setAttributedTitle(selectedAttributedString, for: .selected)
-            button.backgroundColor = Colors.lightGray
+            button.backgroundColor = Color.lightGray
             button.anchor(height: 38, width: 38)
             button.layer.cornerRadius = 38/2
             

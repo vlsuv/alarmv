@@ -15,14 +15,14 @@ class AlarmEditCell: UITableViewCell {
     let settingNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .light)
-        label.textColor = AssetsColor.text
+        label.textColor = Color.text
         return label
     }()
     
     let detailSettingTextLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .light)
-        label.textColor = Colors.mediumGray
+        label.textColor = Color.mediumGray
         return label
     }()
     

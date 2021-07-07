@@ -15,7 +15,7 @@ class FieldCell: UITableViewCell {
     let settingNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .light)
-        label.textColor = AssetsColor.text
+        label.textColor = Color.text
         return label
     }()
     
@@ -23,7 +23,7 @@ class FieldCell: UITableViewCell {
         let textField = UITextField()
         textField.textAlignment = .right
         textField.font = .systemFont(ofSize: 18, weight: .light)
-        textField.textColor = Colors.mediumGray
+        textField.textColor = Color.mediumGray
         return textField
     }()
     

@@ -10,47 +10,34 @@ import Foundation
 import UIKit
 import UserNotifications
 
-final class NotificationManager: NSObject {
+protocol NotificationManagerType {
+    func reShedule(_ alarms: [Alarm])
+    func deleteNotification(withIdentifier identifier: String)
+    func setNotificationWithDate(id: String, title: String, time: Date, repeatDays: [RepeatDay], snooze: Bool, sound: Sound, completion: @escaping (Error?) -> () )
+}
+
+final class NotificationManager: NSObject, NotificationManagerType {
     
+    // MARK: - Properties
     let notificationCenter = UNUserNotificationCenter.current()
     
-    enum NotificationActionKeys {
+    private enum NotificationActionKeys {
         static let snooze: String = "snooze"
         static let stop: String = "stop"
     }
     
-    enum NotificationCategoryKeys {
+    private enum NotificationCategoryKeys {
         static let alarm: String = "alarm"
     }
     
-    func requestAuthorization() {
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
-        
-        notificationCenter.requestAuthorization(options: options) { didAllow, error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            if !didAllow {
-                print("User has declined notifications")
-            }
-        }
+    // MARK: - Init
+    override init() {
+        super.init()
     }
-    
-    func registerCategories() {
-        let snoozeAction = UNNotificationAction(identifier: NotificationActionKeys.snooze,
-                                                title: "snooze",
-                                                options: .foreground)
-        let stopAction = UNNotificationAction(identifier: NotificationActionKeys.stop,
-                                              title: "stop",
-                                              options: .foreground)
+}
 
-        let category = UNNotificationCategory(identifier: NotificationCategoryKeys.alarm, actions: [snoozeAction, stopAction], intentIdentifiers: [])
-        
-        notificationCenter.setNotificationCategories([category])
-    }
-    
+// MARK: Notification Manage
+extension NotificationManager {
     func setNotificationWithDate(id: String, title: String, time: Date, repeatDays: [RepeatDay], snooze: Bool, sound: Sound, completion: @escaping (Error?) -> () ) {
         
         let content = UNMutableNotificationContent()
@@ -128,6 +115,38 @@ final class NotificationManager: NSObject {
     }
 }
 
+// MARK: - Prepare Notification Center
+extension NotificationManager {
+    func requestAuthorization() {
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        
+        notificationCenter.requestAuthorization(options: options) { didAllow, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            if !didAllow {
+                print("User has declined notifications")
+            }
+        }
+    }
+    
+    func registerCategories() {
+        let snoozeAction = UNNotificationAction(identifier: NotificationActionKeys.snooze,
+                                                title: "snooze",
+                                                options: .foreground)
+        let stopAction = UNNotificationAction(identifier: NotificationActionKeys.stop,
+                                              title: "stop",
+                                              options: .foreground)
+        
+        let category = UNNotificationCategory(identifier: NotificationCategoryKeys.alarm, actions: [snoozeAction, stopAction], intentIdentifiers: [])
+        
+        notificationCenter.setNotificationCategories([category])
+    }
+}
+
+// MARK: - UNUserNotificationCenterDelegate
 extension NotificationManager: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])

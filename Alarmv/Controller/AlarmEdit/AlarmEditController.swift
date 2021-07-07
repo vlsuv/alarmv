@@ -24,14 +24,14 @@ class AlarmEditController: UIViewController {
     
     private let snoozeSwitchControl: UISwitch = {
         let switchControl = UISwitch()
-        switchControl.onTintColor = Colors.blue
+        switchControl.onTintColor = Color.blue
         switchControl.addTarget(self, action: #selector(handleSnooze(_:)), for: .valueChanged)
         return switchControl
     }()
     
-    private var notificationManager: NotificationManager!
+    private var notificationManager: NotificationManagerType?
     
-    private var dataManager: DataManagerType!
+    private var dataManager: DataManagerType?
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -42,7 +42,7 @@ class AlarmEditController: UIViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = AssetsColor.background
+        view.backgroundColor = Color.background
         
         snoozeSwitchControl.isOn = alarm.snoozeEnabled
         
@@ -78,7 +78,7 @@ class AlarmEditController: UIViewController {
     
     // MARK: - Handlers
     private func configureNavigationController() {
-        navigationController?.navigationBar.tintColor = Colors.blue
+        navigationController?.navigationBar.tintColor = Color.blue
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.title = "Edit Alarm"
@@ -104,7 +104,7 @@ class AlarmEditController: UIViewController {
         tableView.tableFooterView = alarmEditTableFooterView
         alarmEditTableFooterView.delegate = self
         tableView.tableFooterView?.frame.size.height = Sizes.buttonHeight
-        tableView.backgroundColor = AssetsColor.background
+        tableView.backgroundColor = Color.background
     }
 }
 
@@ -188,7 +188,7 @@ extension AlarmEditController: AlarmEditTableFooterViewDelegate {
     }
     
     func didTapSaveButton() {
-        self.dataManager.save()
+        self.dataManager?.save()
         completion?()
     }
 }

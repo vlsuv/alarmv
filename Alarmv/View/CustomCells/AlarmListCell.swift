@@ -19,21 +19,21 @@ class AlarmListCell: UITableViewCell {
     
     let alarmNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = AssetsColor.text
+        label.textColor = Color.text
         label.font = .systemFont(ofSize: 36, weight: .thin)
         return label
     }()
     
     let alarmDateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = Colors.mediumGray
+        label.textColor = Color.mediumGray
         label.font = .systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
     let alarmSwitchControl: UISwitch = {
         let switchControl = UISwitch()
-        switchControl.onTintColor = Colors.blue
+        switchControl.onTintColor = Color.blue
         return switchControl
     }()
     

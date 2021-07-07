@@ -19,7 +19,7 @@ class SwitchCell: UITableViewCell {
     
     let settingSwitch: UISwitch = {
         let switchControl = UISwitch()
-        switchControl.onTintColor = Colors.blue
+        switchControl.onTintColor = Color.blue
         return switchControl
     }()
     
